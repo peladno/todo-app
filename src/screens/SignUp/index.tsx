@@ -60,7 +60,7 @@ function SignUp() {
   };
 
   useEffect(() => {
-    if (auth.isError) {
+    if (auth.isError && !auth.errorAlertShown) {
       Alert.alert('Error', `${auth?.error}`);
     }
   }, [auth]);
@@ -102,7 +102,6 @@ function SignUp() {
             justifyContent: 'flex-end',
           }}>
           <View style={styles.formContainer}>
-            <Text>Sign up</Text>
             <Input
               active={formState.email.active}
               error={formState.email.error}
@@ -135,11 +134,12 @@ function SignUp() {
               disabled={!isFormValid}>
               <LinearGradient
                 style={styles.button}
-                colors={
-                  isFormValid
-                    ? [`${COLORS.primary}`, `${COLORS.pink}`]
-                    : [`${COLORS.greyLetter}`, `${COLORS.greyLetter}`]
-                }
+                // colors={
+                //   isFormValid
+                //     ? [`${COLORS.primary}`, `${COLORS.pink}`]
+                //     : [`${COLORS.greyLetter}`, `${COLORS.greyLetter}`]
+                // }
+                colors={[`${COLORS.primary}`, `${COLORS.pink}`]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}>
                 <Text style={styles.textButton}>Sign In</Text>

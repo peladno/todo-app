@@ -9,15 +9,20 @@ export type AuthUser = {
   token: string;
 } | null;
 
+export type AuthUserCredentials = {
+  email: string;
+  expiresIn: string;
+  idToken: string;
+  kind: string;
+  localId: string;
+  refreshToken: string;
+};
+
 export type AuthState = {
   isAuth: boolean;
-  user:
-    | {
-        token: string;
-      }
-    | null
-    | unknown;
+  user: AuthUserCredentials | null;
   isLoading: boolean;
   error: string | null | unknown;
   isError: boolean;
+  errorAlertShown: boolean;
 };
