@@ -11,19 +11,33 @@ type HeaderProps = {
   title: string;
   buttonTitle: string;
   screenName: keyof AuthStackParamList;
+  goBack?: boolean;
 };
 
-export const Header = ({ title, buttonTitle, screenName }: HeaderProps) => {
+export const Header = ({
+  title,
+  buttonTitle,
+  screenName,
+  goBack,
+}: HeaderProps) => {
   const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.goBack();
-        }}>
-        <FontAwesomeIcon icon={faChevronLeft} color={COLORS.white} size={23} />
-      </TouchableOpacity>
+      <View>
+        {goBack === false ? (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              color={COLORS.white}
+              size={23}
+            />
+          </TouchableOpacity>
+        ) : null}
+      </View>
       <View style={styles.buttonContainer}>
         <Text style={styles.title}>{title}</Text>
         <TouchableOpacity

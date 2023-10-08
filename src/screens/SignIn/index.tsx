@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 
-import {COLORS} from '../../constants/theme/colors';
+import { COLORS } from '../../constants/theme/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   FormState,
@@ -17,14 +17,14 @@ import {
   onChangeProps,
   onfocusProps,
 } from '../../types/input';
-import {SIGNUP} from '../../navigation/routeNames';
-import {useForm} from '../../hooks/useForm';
-import {Header} from '../../components/header';
-import {Input} from '../../components/input';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {AuthState} from '../../types/auth';
-import {useAppDispatch, useAppSelector} from '../../hooks/redux';
-import {signIn} from '../../store/auth/auth.slice';
+import { SIGNUP } from '../../navigation/routeNames';
+import { useForm } from '../../hooks/useForm';
+import { Header } from '../../components/header';
+import { Input } from '../../components/input';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { AuthState } from '../../types/auth';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { signIn } from '../../store/auth/auth.slice';
 
 const initialState: FormState = {
   email: {
@@ -45,7 +45,7 @@ const initialState: FormState = {
   },
 };
 function SignIn() {
-  const {formState, onChange, isFormValid, onFocus, onBlur} =
+  const { formState, onChange, isFormValid, onFocus, onBlur } =
     useForm(initialState);
   const dispatch = useAppDispatch();
   const auth = useAppSelector<AuthState>(state => state.auth);
@@ -64,16 +64,16 @@ function SignIn() {
     }
   }, [auth]);
 
-  const onBlurHandler = ({name}: onBlurProps) => {
+  const onBlurHandler = ({ name }: onBlurProps) => {
     onBlur(name);
   };
 
-  const onFocusHandler = ({name}: onfocusProps) => {
+  const onFocusHandler = ({ name }: onfocusProps) => {
     onFocus(name);
   };
 
-  const onChangeHandle = ({name, text}: onChangeProps) => {
-    onChange({text, name});
+  const onChangeHandle = ({ name, text }: onChangeProps) => {
+    onChange({ text, name });
   };
   const insets = useSafeAreaInsets();
 
@@ -81,8 +81,8 @@ function SignIn() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <LinearGradient
         colors={[`${COLORS.primary}`, `${'#7a77e3'}`]}
-        start={{x: 0, y: 0}}
-        end={{x: 0.8, y: 0}}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0.8, y: 0 }}
         style={{
           ...styles.container,
           paddingTop: insets.top,
@@ -106,9 +106,9 @@ function SignIn() {
               hasError={formState.email.hasError}
               label="Email address"
               name={formState.email.name}
-              onBlur={() => onBlurHandler({name: formState.email.name})}
+              onBlur={() => onBlurHandler({ name: formState.email.name })}
               onChange={onChangeHandle}
-              onFocus={() => onFocusHandler({name: formState.email.name})}
+              onFocus={() => onFocusHandler({ name: formState.email.name })}
               placeholder="example@email.com"
               value={formState.email.value}
             />
@@ -118,16 +118,16 @@ function SignIn() {
               hasError={formState.password.hasError}
               label="Password"
               name={formState.password.name}
-              onBlur={() => onBlurHandler({name: formState.password.name})}
+              onBlur={() => onBlurHandler({ name: formState.password.name })}
               onChange={onChangeHandle}
-              onFocus={() => onFocusHandler({name: formState.password.name})}
+              onFocus={() => onFocusHandler({ name: formState.password.name })}
               placeholder="***************"
               value={formState.password.value}
               secureTextEntry
             />
 
             <TouchableOpacity
-              style={{marginTop: 10}}
+              style={{ marginTop: 10 }}
               onPress={handleSignIn}
               disabled={!isFormValid}>
               <LinearGradient
@@ -137,8 +137,8 @@ function SignIn() {
                     ? [`${COLORS.primary}`, `${COLORS.pink}`]
                     : [`${COLORS.greyLetter}`, `${COLORS.greyLetter}`]
                 }
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}>
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}>
                 <Text style={styles.textButton}>Sign In</Text>
               </LinearGradient>
             </TouchableOpacity>
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
   },
-  textButton: {color: COLORS.white, fontWeight: 'bold'},
+  textButton: { color: COLORS.white, fontWeight: 'bold' },
   formContainer: {
     // flex: 1,
     backgroundColor: COLORS.white,

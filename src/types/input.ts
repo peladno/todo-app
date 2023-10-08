@@ -23,7 +23,7 @@ export type FormState = {
   [key: string]: InputState;
 };
 
-export type onChangeProps = {text: string; name: string};
+export type onChangeProps = { text: string; name: string };
 
 export type onfocusProps = {
   name: string;
@@ -34,12 +34,12 @@ export type onBlurProps = {
 };
 
 export type InputProps = {
-  onChange: ({text, name}: onChangeProps) => void;
+  onChange: ({ text, name }: onChangeProps) => void;
   name: string;
   placeholder?: string;
   value: string;
-  onFocus: ({name}: onfocusProps) => void;
-  onBlur: ({name}: onBlurProps) => void;
+  onFocus: ({ name }: onfocusProps) => void;
+  onBlur: ({ name }: onBlurProps) => void;
   error: string;
   hasError: boolean;
   active: boolean;

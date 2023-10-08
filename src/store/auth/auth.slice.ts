@@ -1,5 +1,5 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {AuthActionTypes, AuthState, AuthUser} from '../../types/auth';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { AuthActionTypes, AuthState, AuthUser } from '../../types/auth';
 import {
   FIREBASE_API_AUTH_SIGNUP_URL,
   FIREBASE_AUTH_BASE_URL,
@@ -14,7 +14,7 @@ const initialState: AuthState = {
 
 export const signIn = createAsyncThunk(
   `auth/${AuthActionTypes.SIGN_IN}`,
-  async (payload: {email: string; password: string}, thunkAPI) => {
+  async (payload: { email: string; password: string }, thunkAPI) => {
     try {
       // const res = await fetch('hhtp', {
       //   method: 'POST',
@@ -44,7 +44,7 @@ export const signIn = createAsyncThunk(
 
 export const signUp = createAsyncThunk(
   `auth/${AuthActionTypes.SIGN_UP}`,
-  async (payload: {email: string; password: string}, thunkAPI) => {
+  async (payload: { email: string; password: string }, thunkAPI) => {
     try {
       const res = await fetch(
         `${FIREBASE_AUTH_BASE_URL}${FIREBASE_API_AUTH_SIGNUP_URL}`,

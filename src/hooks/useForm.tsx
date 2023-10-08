@@ -1,13 +1,13 @@
-import {useReducer} from 'react';
+import { useReducer } from 'react';
 import {
   onChangeProps,
   InputActions,
   FormState,
   FormAction,
 } from '../types/input';
-import {validateInput} from '../utils/func';
+import { validateInput } from '../utils/func';
 const formReducer = (state: FormState, action: FormAction) => {
-  const {type, data} = action;
+  const { type, data } = action;
 
   switch (type) {
     case InputActions.INPUT_CHANGE:
@@ -39,8 +39,8 @@ const formReducer = (state: FormState, action: FormAction) => {
 export const useForm = (initialState: FormState) => {
   const [state, dispatch] = useReducer(formReducer, initialState);
 
-  const onChange = ({text, name}: onChangeProps) => {
-    const {error, hasError} = validateInput({value: text, name});
+  const onChange = ({ text, name }: onChangeProps) => {
+    const { error, hasError } = validateInput({ value: text, name });
 
     dispatch({
       type: InputActions.INPUT_CHANGE,
