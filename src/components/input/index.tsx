@@ -50,7 +50,7 @@ export const Input = ({
 };
 
 const styles = StyleSheet.create({
-  input: {},
+  input: { paddingTop: 2 },
   container: {
     height: 50,
     borderWidth: 1,

@@ -1,10 +1,6 @@
+import auth from '@react-native-firebase/auth';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AuthActionTypes, AuthState } from '../../types/auth';
-import {
-  FIREBASE_API_AUTH_SIGNIN_URL,
-  FIREBASE_API_AUTH_SIGNUP_URL,
-  FIREBASE_AUTH_BASE_URL,
-} from '../../constants/firebase';
 
 const initialState: AuthState = {
   user: null,
@@ -12,29 +8,17 @@ const initialState: AuthState = {
   isLoading: false,
   isError: false,
   error: null,
-  errorAlertShown: false, // Nuevo campo para controlar las alertas de error
 };
 
 export const signIn = createAsyncThunk(
   `auth/${AuthActionTypes.SIGN_IN}`,
   async (payload: { email: string; password: string }, thunkAPI) => {
     try {
-      const response = await fetch(
-        `${FIREBASE_AUTH_BASE_URL}${FIREBASE_API_AUTH_SIGNIN_URL}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        },
+      const response = await auth().signInWithEmailAndPassword(
+        payload.email,
+        payload.password,
       );
-
-      const data = await response.json();
-      if (data.error) {
-        return thunkAPI.rejectWithValue(data?.error?.message);
-      }
-      return data;
+      return response.user;
     } catch (error: unknown) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -45,21 +29,12 @@ export const signUp = createAsyncThunk(
   `auth/${AuthActionTypes.SIGN_UP}`,
   async (payload: { email: string; password: string }, thunkAPI) => {
     try {
-      const res = await fetch(
-        `${FIREBASE_AUTH_BASE_URL}${FIREBASE_API_AUTH_SIGNUP_URL}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        },
+      const response = await auth().createUserWithEmailAndPassword(
+        payload.email,
+        payload.password,
       );
-      const data = await res.json();
-      if (data.error) {
-        return thunkAPI.rejectWithValue(data?.error?.message);
-      }
-      return data;
+
+      return response.user;
     } catch (error: unknown) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -70,17 +45,6 @@ export const signOut = createAsyncThunk(
   `auth/${AuthActionTypes.SIGN_OUT}`,
   async (_, thunkAPI) => {
     try {
-      // const res = await fetch('hhtp', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-type': 'application/json',
-      //   },
-      //   body: JSON.stringify(payload),
-      // });
-
-      // const data = await res.json();
-      // console.log(data);
-
       return thunkAPI.fulfillWithValue(null);
     } catch (error: unknown) {
       return thunkAPI.rejectWithValue(error);
@@ -97,7 +61,6 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
         state.isError = false;
-        state.errorAlertShown = false;
       })
       .addCase(signUp.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -112,7 +75,6 @@ const authSlice = createSlice({
         state.error = action.payload;
         state.isAuth = false;
         state.user = null;
-        state.errorAlertShown = true; // Establecer errorAlertShown en true
       })
       .addCase(signIn.pending, state => {
         state.isLoading = true;
@@ -132,7 +94,6 @@ const authSlice = createSlice({
         state.error = action.payload;
         state.isAuth = false;
         state.user = null;
-        state.errorAlertShown = true; // Establecer errorAlertShown en true
       })
       .addCase(signOut.pending, state => {
         state.isLoading = false;

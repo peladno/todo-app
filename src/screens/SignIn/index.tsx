@@ -60,7 +60,7 @@ function SignIn() {
 
   useEffect(() => {
     console.log('signIN', auth);
-    if (auth.isError && auth.errorAlertShown) {
+    if (auth.isError) {
       Alert.alert('Error', `${auth?.error}`);
     }
   }, [auth]);
