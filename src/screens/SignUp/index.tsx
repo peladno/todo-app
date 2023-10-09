@@ -60,7 +60,8 @@ function SignUp() {
   };
 
   useEffect(() => {
-    if (auth.isError && !auth.errorAlertShown) {
+    console.log('signUP', auth);
+    if (auth.isError && auth.errorAlertShown) {
       Alert.alert('Error', `${auth?.error}`);
     }
   }, [auth]);

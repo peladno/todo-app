@@ -97,6 +97,7 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
         state.isError = false;
+        state.errorAlertShown = false;
       })
       .addCase(signUp.fulfilled, (state, action) => {
         state.isLoading = false;
