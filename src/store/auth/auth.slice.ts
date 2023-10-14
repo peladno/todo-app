@@ -33,7 +33,6 @@ export const signUp = createAsyncThunk(
         payload.email,
         payload.password,
       );
-
       return response.user;
     } catch (error: unknown) {
       return thunkAPI.rejectWithValue(error);
@@ -54,7 +53,12 @@ export const signOut = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    resetState: state => {
+      state.error = initialState.error;
+      state.isError = initialState.isError;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(signUp.pending, state => {
@@ -109,5 +113,6 @@ const authSlice = createSlice({
       });
   },
 });
+export const { resetState } = authSlice.actions;
 
 export default authSlice.reducer;

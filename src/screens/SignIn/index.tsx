@@ -48,7 +48,7 @@ function SignIn() {
   const { formState, onChange, isFormValid, onFocus, onBlur } =
     useForm(initialState);
   const dispatch = useAppDispatch();
-  const auth = useAppSelector<AuthState>(state => state.auth);
+  // const auth = useAppSelector<AuthState>(state => state.auth);
 
   const handleSignIn = () => {
     const formData = {
@@ -58,12 +58,15 @@ function SignIn() {
     dispatch(signIn(formData));
   };
 
-  useEffect(() => {
-    console.log('signIN', auth);
-    if (auth.isError) {
-      Alert.alert('Error', `${auth?.error}`);
-    }
-  }, [auth]);
+  //Error or Sign Up, when is a error on create user two alerts came, one for this componen and other
+  //from sign up, I manege this error en index of the navigation for the moment
+
+  // useEffect(() => {
+  //   console.log('signIN', auth);
+  //   if (auth.isError) {
+  //     Alert.alert('Error Sign in', `${auth?.error}`);
+  //   }
+  // }, [auth]);
 
   const onBlurHandler = ({ name }: onBlurProps) => {
     onBlur(name);

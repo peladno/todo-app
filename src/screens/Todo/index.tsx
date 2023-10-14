@@ -8,7 +8,7 @@ function Todo() {
   const auth = useAppSelector<AuthState>(state => state.auth);
   const insets = useSafeAreaInsets();
 
-  console.log(auth.user);
+  console.log('[auth user]:', auth.user);
   return (
     <View style={{ paddingTop: insets.top }}>
       <Text>index</Text>

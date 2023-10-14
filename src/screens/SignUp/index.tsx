@@ -49,7 +49,7 @@ function SignUp() {
     useForm(initialState);
 
   const dispatch = useAppDispatch();
-  const auth = useAppSelector<AuthState>(state => state.auth);
+  // const auth = useAppSelector<AuthState>(state => state.auth);
 
   const handleSignUp = () => {
     const formData = {
@@ -59,12 +59,12 @@ function SignUp() {
     dispatch(signUp(formData));
   };
 
-  useEffect(() => {
-    console.log('signUP', auth);
-    if (auth.isError) {
-      Alert.alert('Error', `${auth?.error}`);
-    }
-  }, [auth]);
+  // useEffect(() => {
+  //   console.log('signUP', auth);
+  //   if (auth.isError) {
+  //     Alert.alert('Error', `${auth?.error}`);
+  //   }
+  // }, [auth]);
 
   const onBlurHandler = ({ name }: onBlurProps) => {
     onBlur(name);
