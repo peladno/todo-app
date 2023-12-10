@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -6,7 +6,6 @@ import {
   Text,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
@@ -18,13 +17,12 @@ import {
 } from '../../types/input';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useForm } from '../../hooks/useForm';
-import { Header } from '../../components/header';
-import { Input } from '../../components/input';
+import { Input } from '../../components';
 import { COLORS } from '../../constants/theme/colors';
 import { SIGNIN } from '../../navigation/routeNames';
 import { signUp } from '../../store/auth/auth.slice';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { AuthState } from '../../types/auth';
+import { useAppDispatch } from '../../hooks/redux';
+import { Header } from '../../components';
 
 const initialState: FormState = {
   email: {
@@ -49,7 +47,6 @@ function SignUp() {
     useForm(initialState);
 
   const dispatch = useAppDispatch();
-  // const auth = useAppSelector<AuthState>(state => state.auth);
 
   const handleSignUp = () => {
     const formData = {
@@ -58,14 +55,6 @@ function SignUp() {
     };
     dispatch(signUp(formData));
   };
-
-  // useEffect(() => {
-  //   console.log('signUP', auth);
-  //   if (auth.isError) {
-  //     Alert.alert('Error', `${auth?.error}`);
-  //   }
-  // }, [auth]);
-
   const onBlurHandler = ({ name }: onBlurProps) => {
     onBlur(name);
   };
@@ -133,18 +122,16 @@ function SignUp() {
               style={{ marginTop: 10 }}
               onPress={handleSignUp}
               disabled={!isFormValid}>
-              <LinearGradient
+              <View
                 style={styles.button}
                 // colors={
                 //   isFormValid
                 //     ? [`${COLORS.primary}`, `${COLORS.pink}`]
                 //     : [`${COLORS.greyLetter}`, `${COLORS.greyLetter}`]
                 // }
-                colors={[`${COLORS.primary}`, `${COLORS.pink}`]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}>
+              >
                 <Text style={styles.textButton}>Sign In</Text>
-              </LinearGradient>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
@@ -164,6 +151,7 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     width: '100%',
+    backgroundColor: COLORS.primary,
   },
   textButton: { color: COLORS.white, fontWeight: 'bold' },
   formContainer: {

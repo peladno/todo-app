@@ -14,12 +14,12 @@ type HeaderProps = {
   goBack?: boolean;
 };
 
-export const Header = ({
+export default function Header({
   title,
   buttonTitle,
   screenName,
   goBack,
-}: HeaderProps) => {
+}: HeaderProps) {
   const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
 
   return (
@@ -50,7 +50,7 @@ export const Header = ({
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   title: { color: COLORS.white, fontSize: 12 },

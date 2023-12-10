@@ -1,21 +1,57 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AuthState } from '../../types/auth';
-import { useAppSelector } from '../../hooks/redux';
+import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { PRODUCTS } from '../../constants/data';
+import { Card } from '../../components';
+import Animated, {
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from 'react-native-reanimated';
+import { DETAIL } from '../../navigation/routeNames';
+import { TodosProps } from '../../types/navigation';
+import { Product } from '../../types/product';
 
-function Todo() {
-  const auth = useAppSelector<AuthState>(state => state.auth);
-  const insets = useSafeAreaInsets();
+function Todo({ navigation }: TodosProps) {
+  const { width } = Dimensions.get('window');
+  const translateX = useSharedValue(0);
 
-  console.log('[auth user]:', auth.user);
+  const onScroll = useAnimatedScrollHandler({
+    onScroll: ({ contentOffset: { x } }) => {
+      translateX.value = x;
+    },
+  });
+
+  const onSelected = (product: Product) => {
+    navigation.navigate(DETAIL, product);
+  };
   return (
-    <View style={{ paddingTop: insets.top }}>
-      <Text>index</Text>
+    <View style={styles.container}>
+      <ScrollView
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        decelerationRate="fast">
+        <View style={styles.slider}>
+          <Animated.ScrollView
+            onScroll={onScroll}
+            snapToInterval={width}
+            decelerationRate="fast"
+            horizontal
+            showsHorizontalScrollIndicator={false}>
+            {PRODUCTS.map((products, index) => (
+              <Card
+                {...products}
+                key={products.id}
+                index={index}
+                x={translateX}
+                onSelected={onSelected}
+              />
+            ))}
+          </Animated.ScrollView>
+        </View>
+      </ScrollView>
     </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({ slider: {}, container: { flex: 1 } });
 
 export default Todo;

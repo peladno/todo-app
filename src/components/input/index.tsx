@@ -10,7 +10,7 @@ import {
 import { COLORS } from '../../constants/theme/colors';
 import { InputProps } from '../../types/input';
 
-export const Input = ({
+export default function Input({
   placeholder,
   value,
   onChange,
@@ -22,14 +22,15 @@ export const Input = ({
   hasError,
   active,
   secureTextEntry,
-}: InputProps) => {
+}: InputProps) {
   const borderColor = active ? COLORS.primary : COLORS.grey;
+  const borderWidth = active ? 2 : 1;
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View>
-        <View style={[styles.container, { borderColor }]}>
+        <View style={[styles.container, { borderColor, borderWidth }]}>
           <Text style={styles.label}>{label}</Text>
           <TextInput
             style={styles.input}
@@ -47,13 +48,13 @@ export const Input = ({
       </View>
     </KeyboardAvoidingView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   input: { paddingTop: 2 },
   container: {
     height: 50,
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: COLORS.grey,
     borderRadius: 10,
     padding: 8,

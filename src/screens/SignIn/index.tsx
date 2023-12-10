@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -6,7 +6,6 @@ import {
   Text,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
 } from 'react-native';
 
 import { COLORS } from '../../constants/theme/colors';
@@ -19,12 +18,11 @@ import {
 } from '../../types/input';
 import { SIGNUP } from '../../navigation/routeNames';
 import { useForm } from '../../hooks/useForm';
-import { Header } from '../../components/header';
-import { Input } from '../../components/input';
+import { Input } from '../../components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AuthState } from '../../types/auth';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch } from '../../hooks/redux';
 import { signIn } from '../../store/auth/auth.slice';
+import { Header } from '../../components';
 
 const initialState: FormState = {
   email: {
@@ -48,7 +46,6 @@ function SignIn() {
   const { formState, onChange, isFormValid, onFocus, onBlur } =
     useForm(initialState);
   const dispatch = useAppDispatch();
-  // const auth = useAppSelector<AuthState>(state => state.auth);
 
   const handleSignIn = () => {
     const formData = {
@@ -57,16 +54,6 @@ function SignIn() {
     };
     dispatch(signIn(formData));
   };
-
-  //Error or Sign Up, when is a error on create user two alerts came, one for this componen and other
-  //from sign up, I manege this error en index of the navigation for the moment
-
-  // useEffect(() => {
-  //   console.log('signIN', auth);
-  //   if (auth.isError) {
-  //     Alert.alert('Error Sign in', `${auth?.error}`);
-  //   }
-  // }, [auth]);
 
   const onBlurHandler = ({ name }: onBlurProps) => {
     onBlur(name);
@@ -133,18 +120,16 @@ function SignIn() {
               style={{ marginTop: 10 }}
               onPress={handleSignIn}
               disabled={!isFormValid}>
-              <LinearGradient
+              <View
                 style={styles.button}
                 // colors={
                 //   isFormValid
                 //     ? [`${COLORS.primary}`, `${COLORS.pink}`]
                 //     : [`${COLORS.greyLetter}`, `${COLORS.greyLetter}`]
                 // }
-                colors={[`${COLORS.primary}`, `${COLORS.pink}`]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}>
+              >
                 <Text style={styles.textButton}>Sign In</Text>
-              </LinearGradient>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
@@ -166,6 +151,7 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     width: '100%',
+    backgroundColor: COLORS.primary,
   },
   textButton: { color: COLORS.white, fontWeight: 'bold' },
   formContainer: {
