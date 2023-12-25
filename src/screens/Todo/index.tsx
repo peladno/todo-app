@@ -1,57 +1,55 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
-import { PRODUCTS } from '../../constants/data';
-import { Card } from '../../components';
-import Animated, {
-  useAnimatedScrollHandler,
-  useSharedValue,
-} from 'react-native-reanimated';
-import { DETAIL } from '../../navigation/routeNames';
+import React, { useState } from 'react';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Text,
+  Pressable,
+} from 'react-native';
+
 import { TodosProps } from '../../types/navigation';
-import { Product } from '../../types/product';
+import { COLORS } from '../../constants/theme/colors';
+import { ModalComp } from '../../components';
 
 function Todo({ navigation }: TodosProps) {
+  const [modalVisible, setModalVisible] = useState(false);
+
   const { width } = Dimensions.get('window');
-  const translateX = useSharedValue(0);
 
-  const onScroll = useAnimatedScrollHandler({
-    onScroll: ({ contentOffset: { x } }) => {
-      translateX.value = x;
-    },
-  });
-
-  const onSelected = (product: Product) => {
-    navigation.navigate(DETAIL, product);
+  const closeModal = () => {
+    setModalVisible(false);
   };
+
   return (
     <View style={styles.container}>
-      <ScrollView
-        bounces={false}
-        showsVerticalScrollIndicator={false}
-        decelerationRate="fast">
-        <View style={styles.slider}>
-          <Animated.ScrollView
-            onScroll={onScroll}
-            snapToInterval={width}
-            decelerationRate="fast"
-            horizontal
-            showsHorizontalScrollIndicator={false}>
-            {PRODUCTS.map((products, index) => (
-              <Card
-                {...products}
-                key={products.id}
-                index={index}
-                x={translateX}
-                onSelected={onSelected}
-              />
-            ))}
-          </Animated.ScrollView>
-        </View>
-      </ScrollView>
+      <ModalComp modalVisible={modalVisible} closeModal={closeModal} />
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <Text style={styles.floatingButtonText}>+</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
-const styles = StyleSheet.create({ slider: {}, container: { flex: 1 } });
+const styles = StyleSheet.create({
+  slider: {},
+  container: { flex: 1 },
+  floatingButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 65,
+    position: 'absolute',
+    right: 30,
+    height: 65,
+    bottom: 60,
+    backgroundColor: COLORS.primary,
+    borderRadius: 100,
+  },
+  floatingButtonText: { color: COLORS.white, fontSize: 30, fontWeight: 'bold' },
+});
 
 export default Todo;

@@ -5,7 +5,7 @@ import { DetailProps } from '../../types/navigation';
 
 function Details({ route }: DetailProps) {
   const insets = useSafeAreaInsets();
-  const { description, id, img, price, title } = route.params;
+  // const { description, id, img, price, title } = route.params;
 
   return (
     <View style={{ paddingTop: insets.top }}>

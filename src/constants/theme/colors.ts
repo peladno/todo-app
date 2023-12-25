@@ -5,4 +5,5 @@ export const COLORS = {
   red: '#ff0000',
   white: '#fff',
   pink: '#e29dfc',
+  transparentBackground: 'rgba(0, 0, 0, 0.5)',
 };
