@@ -92,11 +92,26 @@ export const useForm = (initialState: FormState) => {
     });
   };
 
+  const clearInput = (name: string) => {
+    dispatch({
+      type: InputActions.INPUT_CHANGE,
+      data: {
+        name,
+        value: '',
+        error: '',
+        hasError: false,
+        active: false,
+        isFormValid: false,
+      },
+    });
+  };
+
   return {
     formState: state,
     onChange,
     isFormValid: validateForm(),
     onFocus,
     onBlur,
+    clearInput,
   };
 };

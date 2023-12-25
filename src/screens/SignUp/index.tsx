@@ -115,7 +115,11 @@ function SignUp() {
               value={formState.password.value}
               secureTextEntry
             />
-            <Button handleButton={handleSignUp} disabled={isFormValid} />
+            <Button
+              handleButton={handleSignUp}
+              formValid={isFormValid}
+              text="Sign Up"
+            />
           </View>
         </View>
       </LinearGradient>

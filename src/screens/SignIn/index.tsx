@@ -114,7 +114,11 @@ function SignIn() {
               secureTextEntry
             />
 
-            <Button handleButton={handleSignIn} disabled={isFormValid} />
+            <Button
+              handleButton={handleSignIn}
+              formValid={isFormValid}
+              text="Sign In"
+            />
           </View>
         </View>
       </LinearGradient>

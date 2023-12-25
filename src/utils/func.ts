@@ -1,6 +1,7 @@
 import { ValidateInput, ValidateInputParams } from '../types/validation';
 
 const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+const textRegex = /^[a-zA-Z0-9\s.,;:'"()]+$/;
 
 export const validateInput = ({
   value,
@@ -41,6 +42,30 @@ export const validateInput = ({
         if (!hasError) {
           error = '';
         }
+      }
+      break;
+    case 'task':
+      if (formValue === '') {
+        hasError = true;
+        error = 'Task is required';
+      } else if (!textRegex.test(formValue)) {
+        hasError = true;
+        error = 'Task is invalid';
+      } else {
+        hasError = false;
+        error = '';
+      }
+      break;
+    case 'description':
+      if (formValue === '') {
+        hasError = true;
+        error = 'Description is required';
+      } else if (!textRegex.test(formValue)) {
+        hasError = true;
+        error = 'Description is invalid';
+      } else {
+        hasError = false;
+        error = '';
       }
       break;
     default:

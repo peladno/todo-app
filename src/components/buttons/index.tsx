@@ -3,25 +3,34 @@ import React from 'react';
 import { COLORS } from '../../constants/theme/colors';
 
 type ButtonProps = {
-  disabled: boolean;
+  disabled?: boolean;
   handleButton: () => void;
+  formValid?: boolean;
+  width?: number;
+  text: string;
 };
 
-export default function Button({ handleButton, disabled }: ButtonProps) {
+export default function Button({
+  handleButton,
+  disabled,
+  formValid,
+  width,
+  text,
+}: ButtonProps) {
   return (
     <TouchableOpacity
       style={{ marginTop: 10 }}
       onPress={handleButton}
-      disabled={!disabled}>
+      disabled={disabled ?? !formValid}>
       <View
-        style={styles.button}
+        style={{ ...styles.button, width: width }}
         // colors={
         //   isFormValid
         //     ? [`${COLORS.primary}`, `${COLORS.pink}`]
         //     : [`${COLORS.greyLetter}`, `${COLORS.greyLetter}`]
         // }
       >
-        <Text style={styles.textButton}>Sign In</Text>
+        <Text style={styles.textButton}>{text}</Text>
       </View>
     </TouchableOpacity>
   );
