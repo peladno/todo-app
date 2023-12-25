@@ -10,7 +10,7 @@ import {
 
 import { TodosProps } from '../../types/navigation';
 import { COLORS } from '../../constants/theme/colors';
-import { ModalComp } from '../../components';
+import { Input, ModalComp } from '../../components';
 
 function Todo({ navigation }: TodosProps) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -23,7 +23,15 @@ function Todo({ navigation }: TodosProps) {
 
   return (
     <View style={styles.container}>
-      <ModalComp modalVisible={modalVisible} closeModal={closeModal} />
+      <ModalComp modalVisible={modalVisible} closeModal={closeModal}>
+        <View style={{ width: 250 }}>
+          <Input placeholder="Enter task name" label="Task Name" />
+          <Input
+            placeholder="Enter task description"
+            label="Task Description"
+          />
+        </View>
+      </ModalComp>
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={() => {

@@ -2,8 +2,6 @@ import React from 'react';
 import {
   View,
   StyleSheet,
-  TouchableOpacity,
-  Text,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
@@ -17,7 +15,7 @@ import {
 } from '../../types/input';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useForm } from '../../hooks/useForm';
-import { Input } from '../../components';
+import { Button, Input } from '../../components';
 import { COLORS } from '../../constants/theme/colors';
 import { SIGNIN } from '../../navigation/routeNames';
 import { signUp } from '../../store/auth/auth.slice';
@@ -117,22 +115,7 @@ function SignUp() {
               value={formState.password.value}
               secureTextEntry
             />
-
-            <TouchableOpacity
-              style={{ marginTop: 10 }}
-              onPress={handleSignUp}
-              disabled={!isFormValid}>
-              <View
-                style={styles.button}
-                // colors={
-                //   isFormValid
-                //     ? [`${COLORS.primary}`, `${COLORS.pink}`]
-                //     : [`${COLORS.greyLetter}`, `${COLORS.greyLetter}`]
-                // }
-              >
-                <Text style={styles.textButton}>Sign In</Text>
-              </View>
-            </TouchableOpacity>
+            <Button handleButton={handleSignUp} disabled={isFormValid} />
           </View>
         </View>
       </LinearGradient>

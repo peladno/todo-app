@@ -1,9 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Product } from './product';
 
 export type RootStackParamList = {
   Todos: undefined;
-  Detail: Product;
+  Detail: undefined;
 };
 
 export type AuthStackParamList = {

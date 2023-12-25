@@ -1,13 +1,14 @@
 import { View, Text, Modal, StyleSheet, Pressable } from 'react-native';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { COLORS } from '../../constants/theme/colors';
 
 type ModalProps = {
   modalVisible: boolean;
   closeModal: () => void;
+  children: ReactNode;
 };
 
-function ModalComp({ modalVisible, closeModal }: ModalProps) {
+function ModalComp({ modalVisible, closeModal, children }: ModalProps) {
   return (
     <Modal
       visible={modalVisible}
@@ -16,11 +17,11 @@ function ModalComp({ modalVisible, closeModal }: ModalProps) {
       onRequestClose={closeModal}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>Hello World!</Text>
+          {children}
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={closeModal}>
-            <Text style={styles.textStyle}>Hide Modal</Text>
+            <Text style={styles.textStyle}>Close</Text>
           </Pressable>
         </View>
       </View>
