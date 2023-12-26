@@ -1,6 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AuthActionTypes, AuthState } from '../../types/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const initialState: AuthState = {
   user: null,
@@ -33,8 +34,14 @@ export const signUp = createAsyncThunk(
         payload.email,
         payload.password,
       );
+      await firestore().collection('users').doc(response.user.uid).set({
+        uid: response.user.uid,
+        email: response.user.email,
+      });
       return response.user;
     } catch (error: unknown) {
+      console.log(error);
+
       return thunkAPI.rejectWithValue(error);
     }
   },

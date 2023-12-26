@@ -1,10 +1,26 @@
-import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
+import {
+  Action,
+  ThunkAction,
+  combineReducers,
+  configureStore,
+} from '@reduxjs/toolkit';
 import authSlice from './auth/auth.slice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { persistReducer } from 'redux-persist';
+
+const reducers = combineReducers({
+  auth: authSlice,
+});
+
+const persistConfig = {
+  key: 'todo-app-v1',
+  storage: AsyncStorage,
+};
+
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
-  reducer: {
-    auth: authSlice,
-  },
+  reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: false,

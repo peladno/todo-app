@@ -11,7 +11,7 @@ export type AuthUser = FirebaseAuthTypes.User | null;
 
 export type AuthState = {
   isAuth: boolean;
-  user: FirebaseAuthTypes.User | null;
+  user: AuthUser;
   isLoading: boolean;
   error: string | null | unknown;
   isError: boolean;

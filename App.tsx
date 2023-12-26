@@ -2,11 +2,16 @@ import React from 'react';
 import { store } from './src/store';
 import { Provider } from 'react-redux';
 import AppNavigator from './src/navigation';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 
 function App(): JSX.Element {
+  const persistor = persistStore(store);
   return (
     <Provider store={store}>
-      <AppNavigator />
+      <PersistGate loading={null} persistor={persistor}>
+        <AppNavigator />
+      </PersistGate>
     </Provider>
   );
 }
