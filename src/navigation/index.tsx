@@ -20,7 +20,7 @@ export default function AppNavigator() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        {!isAuth ? <TodoNavigator /> : <AuthNavigator />}
+        {isAuth ? <TodoNavigator /> : <AuthNavigator />}
       </NavigationContainer>
     </SafeAreaProvider>
   );
