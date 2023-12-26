@@ -12,6 +12,8 @@ import {
 import { useForm } from '../../hooks/useForm';
 import { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import ModalTodo from './components/modalTodo';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 function Todo({ navigation }: TodosProps) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -80,7 +82,7 @@ function Todo({ navigation }: TodosProps) {
         onPress={() => {
           setModalVisible(!modalVisible);
         }}>
-        <Text style={styles.floatingButtonText}>+</Text>
+        <FontAwesomeIcon icon={faPlus} color={COLORS.white} size={25} />
       </TouchableOpacity>
     </View>
   );
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
     right: 30,
     height: 65,
     bottom: 60,
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.secondary,
     borderRadius: 100,
   },
   floatingButtonText: { color: COLORS.white, fontSize: 30, fontWeight: 'bold' },
