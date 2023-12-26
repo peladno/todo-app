@@ -1,12 +1,7 @@
 import { View, Modal, StyleSheet } from 'react-native';
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { COLORS } from '../../constants/theme/colors';
-
-type ModalProps = {
-  modalVisible: boolean;
-  closeModal: () => void;
-  children: ReactNode;
-};
+import { ModalProps } from '../../types/modals';
 
 function ModalComp({ modalVisible, closeModal, children }: ModalProps) {
   return (

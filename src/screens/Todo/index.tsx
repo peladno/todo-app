@@ -3,7 +3,6 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 import { TodosProps } from '../../types/navigation';
 import { COLORS } from '../../constants/theme/colors';
-import { Button, Input, ModalComp } from '../../components';
 import {
   FormState,
   onBlurProps,
@@ -11,9 +10,8 @@ import {
   onfocusProps,
 } from '../../types/input';
 import { useForm } from '../../hooks/useForm';
-import DateTimePicker, {
-  DateTimePickerEvent,
-} from '@react-native-community/datetimepicker';
+import { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import ModalTodo from './components/modalTodo';
 
 function Todo({ navigation }: TodosProps) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -66,66 +64,17 @@ function Todo({ navigation }: TodosProps) {
 
   return (
     <View style={styles.container}>
-      <ModalComp modalVisible={modalVisible} closeModal={closeModal}>
-        <View style={styles.modal}>
-          <Text style={styles.title}>Add New Task</Text>
-          <Text style={styles.subTitle}>
-            Fill out the form below to add a new task to your todo list.
-          </Text>
-          <Input
-            placeholder="Enter task name"
-            label="Task Name"
-            active={formState.task.active}
-            error={formState.task.error}
-            hasError={formState.task.hasError}
-            name={formState.task.name}
-            value={formState.task.value}
-            onBlur={() => onBlurHandler({ name: formState.task.name })}
-            onChange={onChangeHandle}
-            onFocus={() => onFocusHandler({ name: formState.task.name })}
-          />
-          <Input
-            placeholder="Enter task description"
-            label="Task Description"
-            active={formState.description.active}
-            error={formState.description.error}
-            hasError={formState.description.hasError}
-            name={formState.description.name}
-            value={formState.description.value}
-            onBlur={() => onBlurHandler({ name: formState.description.name })}
-            onChange={onChangeHandle}
-            onFocus={() => onFocusHandler({ name: formState.description.name })}
-          />
-          <View style={styles.dateContainer}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Task Deadline:
-            </Text>
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              is24Hour={true}
-              onChange={onChangeDate}
-            />
-          </View>
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            handleButton={closeModal}
-            disabled={false}
-            width={100}
-            text="Close"
-          />
-          <Button
-            handleButton={() => {}}
-            disabled={false}
-            width={100}
-            text="Add"
-          />
-        </View>
-      </ModalComp>
+      <ModalTodo
+        modalVisible={modalVisible}
+        closeModal={closeModal}
+        formState={formState}
+        onChangeHandle={onChangeHandle}
+        isFormValid={isFormValid}
+        onFocusHandler={onFocusHandler}
+        onBlurHandler={onBlurHandler}
+        onChangeDate={onChangeDate}
+        date={date}
+      />
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={() => {
@@ -152,20 +101,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   floatingButtonText: { color: COLORS.white, fontSize: 30, fontWeight: 'bold' },
-  title: { fontSize: 20, fontWeight: 'bold', marginBottom: 10 },
-  subTitle: { fontSize: 15, marginBottom: 20 },
-  modal: { width: 250 },
-  buttonContainer: {
-    width: 250,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-  },
-  dateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
 });
 
 export default Todo;
