@@ -14,10 +14,15 @@ import { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import ModalTodo from './components/modalTodo';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { TodoState, fetchTasks } from '../../store/todo/todo.slice';
 
 function Todo({ navigation }: TodosProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [date, setDate] = useState(new Date());
+
+  const dispatch = useAppDispatch();
+  const tasksStateList = useAppSelector<TodoState>(state => state.todo.tasks);
 
   const onChangeDate = (event: DateTimePickerEvent, selectedDate?: Date) => {
     const currentDate = selectedDate || new Date();
@@ -63,6 +68,14 @@ function Todo({ navigation }: TodosProps) {
     clearInput('task');
     clearInput('description');
   };
+
+  const fetchList = () => {
+    dispatch(fetchTasks());
+  };
+
+  useEffect(() => {
+    fetchList();
+  }, []);
 
   return (
     <View style={styles.container}>

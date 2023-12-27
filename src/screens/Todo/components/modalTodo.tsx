@@ -17,8 +17,6 @@ export default function ModalTodo({
   onChangeDate,
   date,
 }: TodoModalProps) {
-  console.log(isFormValid);
-
   return (
     <ModalComp modalVisible={modalVisible} closeModal={closeModal}>
       <View style={styles.modal}>

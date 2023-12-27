@@ -48,7 +48,6 @@ export const signUp = createAsyncThunk(
       return response.user;
     } catch (error: unknown) {
       // If there's an error, log it and reject the thunk with the error value
-      console.log(error);
       return thunkAPI.rejectWithValue(error);
     }
   },
