@@ -7,9 +7,11 @@ import {
 import authSlice from './auth/auth.slice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistReducer } from 'redux-persist';
+import todoSlice from './todo/todo.slice';
 
 const reducers = combineReducers({
   auth: authSlice,
+  todo: todoSlice,
 });
 
 const persistConfig = {

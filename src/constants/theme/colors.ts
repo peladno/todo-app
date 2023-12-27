@@ -6,4 +6,5 @@ export const COLORS = {
   white: '#fff',
   pink: '#e29dfc',
   transparentBackground: 'rgba(0, 0, 0, 0.5)',
+  secondary: '#5688C7',
 };
