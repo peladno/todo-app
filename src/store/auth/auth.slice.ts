@@ -1,6 +1,6 @@
 import auth from '@react-native-firebase/auth';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AuthActionTypes, AuthState } from '../../types/auth';
+import { AuthActionTypes, AuthState } from '../../types/authSlice';
 import firestore from '@react-native-firebase/firestore';
 
 // Define the initial state for the authentication slice

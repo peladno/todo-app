@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AuthNavigator from './authNavigator';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useAppSelector } from '../hooks/redux';
-import { AuthState } from '../types/auth';
+import { AuthState } from '../types/authSlice';
 import TodoNavigator from './todoNavigator';
 import { Alert } from 'react-native';
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { TodosProps } from '../../types/navigation';
 import { COLORS } from '../../constants/theme/colors';
 import {
@@ -15,14 +14,17 @@ import ModalTodo from './components/modalTodo';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { TodoState, fetchTasks } from '../../store/todo/todo.slice';
+import { fetchTasks } from '../../store/todo/todo.slice';
+import { TodoState } from '../../types/todoSlice';
 
 function Todo({ navigation }: TodosProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [date, setDate] = useState(new Date());
 
   const dispatch = useAppDispatch();
-  const tasksStateList = useAppSelector<TodoState>(state => state.todo.tasks);
+  const tasksStateList = useAppSelector<TodoState>(state => state.todo);
+
+  console.log(tasksStateList.tasks[0]);
 
   const onChangeDate = (event: DateTimePickerEvent, selectedDate?: Date) => {
     const currentDate = selectedDate || new Date();

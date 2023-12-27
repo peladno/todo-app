@@ -1,23 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import firestore from '@react-native-firebase/firestore';
-
-interface Task {
-  id: string;
-  userId: string;
-  taskId: string;
-  title: string;
-  description: string;
-  dueDate: Date;
-  creationDate: Date;
-  status: string;
-}
-
-export interface TodoState {
-  tasks: Task[];
-  isLoading: boolean;
-  isError: boolean;
-  error: string | null | unknown;
-}
+import { Task, TodoActionTypes, TodoState } from '../../types/todoSlice';
 
 const initialState: TodoState = {
   tasks: [],
@@ -28,7 +11,7 @@ const initialState: TodoState = {
 
 // Async thunk for fetching tasks from Firebase
 export const fetchTasks = createAsyncThunk(
-  'todo/fetchTasks',
+  `todo/${TodoActionTypes.FETCH_TASK}`,
   async (_, thunkAPI) => {
     try {
       const tasks = await firestore().collection('tasks').get();
@@ -41,7 +24,7 @@ export const fetchTasks = createAsyncThunk(
 
 // Async thunk for adding a task to Firebase
 export const addTask = createAsyncThunk(
-  'todo/addTask',
+  `todo/${TodoActionTypes.ADD_TASK}`,
   async (task: Task, thunkAPI) => {
     try {
       await firestore().collection('tasks').add(task);
@@ -54,7 +37,7 @@ export const addTask = createAsyncThunk(
 
 // Async thunk for deleting a task from Firebase
 export const deleteTask = createAsyncThunk(
-  'todo/deleteTask',
+  `todo/${TodoActionTypes.DELETE_TASK}`,
   async (taskId: string, thunkAPI) => {
     try {
       await firestore().collection('tasks').doc(taskId).delete();
@@ -65,15 +48,13 @@ export const deleteTask = createAsyncThunk(
   },
 );
 
+// Async thunk for updating a task from Firebase
 export const updateTask = createAsyncThunk(
-  'todo/updateTask',
-  async (payload: { task: Task }, thunkAPI) => {
+  `todo/${TodoActionTypes.EDIT_TASK}`,
+  async (task: Task, thunkAPI) => {
     try {
-      await firestore()
-        .collection('tasks')
-        .doc(payload.task.id)
-        .update(payload.task);
-      return payload;
+      await firestore().collection('tasks').doc(task.id).update(task);
+      return task;
     } catch (error) {
       thunkAPI.rejectWithValue(error);
     }
@@ -94,7 +75,7 @@ const todoSlice = createSlice({
       })
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.tasks = action.payload;
+        state.tasks = action.payload as Task[];
       })
       .addCase(fetchTasks.rejected, (state, action) => {
         state.isLoading = false;
@@ -108,7 +89,7 @@ const todoSlice = createSlice({
       })
       .addCase(addTask.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.tasks.push(action.payload);
+        state.tasks.push(action.payload as Task);
       })
       .addCase(addTask.rejected, (state, action) => {
         state.isLoading = false;
@@ -132,14 +113,6 @@ const todoSlice = createSlice({
       });
   },
 });
-
-// Export the todo slice and its actions
-export const todoActions = {
-  ...todoSlice.actions,
-  fetchTasks,
-  addTask,
-  deleteTask,
-};
 
 // Export the todo reducer
 export default todoSlice.reducer;
