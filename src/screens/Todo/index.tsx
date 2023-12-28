@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  Text,
+} from 'react-native';
 import { TodosProps } from '../../types/navigation';
 import { COLORS } from '../../constants/theme/colors';
 import {
@@ -15,7 +21,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchTasks } from '../../store/todo/todo.slice';
-import { TodoState } from '../../types/todoSlice';
+import { Task, TodoState } from '../../types/todoSlice';
 
 function Todo({ navigation }: TodosProps) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -23,8 +29,6 @@ function Todo({ navigation }: TodosProps) {
 
   const dispatch = useAppDispatch();
   const tasksStateList = useAppSelector<TodoState>(state => state.todo);
-
-  console.log(tasksStateList.tasks[0]);
 
   const onChangeDate = (event: DateTimePickerEvent, selectedDate?: Date) => {
     const currentDate = selectedDate || new Date();
@@ -79,6 +83,12 @@ function Todo({ navigation }: TodosProps) {
     fetchList();
   }, []);
 
+  const renderItem = ({ item }: { item: Task }) => (
+    <TouchableOpacity>
+      <Text>{item.title}</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.container}>
       <ModalTodo
@@ -92,6 +102,7 @@ function Todo({ navigation }: TodosProps) {
         onChangeDate={onChangeDate}
         date={date}
       />
+      <FlatList data={tasksStateList.tasks} renderItem={renderItem} />
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={() => {
