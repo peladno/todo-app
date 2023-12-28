@@ -22,13 +22,19 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchTasks } from '../../store/todo/todo.slice';
 import { Task, TodoState } from '../../types/todoSlice';
+import RenderItem from './components/renderItem';
+
+const Separator = () => <View style={styles.itemSeparator} />;
 
 function Todo({ navigation }: TodosProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [date, setDate] = useState(new Date());
+  const [checked, setChecked] = useState(false);
 
   const dispatch = useAppDispatch();
-  const tasksStateList = useAppSelector<TodoState>(state => state.todo);
+  const { tasks, isLoading, isError } = useAppSelector<TodoState>(
+    state => state.todo,
+  );
 
   const onChangeDate = (event: DateTimePickerEvent, selectedDate?: Date) => {
     const currentDate = selectedDate || new Date();
@@ -83,12 +89,6 @@ function Todo({ navigation }: TodosProps) {
     fetchList();
   }, []);
 
-  const renderItem = ({ item }: { item: Task }) => (
-    <TouchableOpacity>
-      <Text>{item.title}</Text>
-    </TouchableOpacity>
-  );
-
   return (
     <View style={styles.container}>
       <ModalTodo
@@ -102,7 +102,16 @@ function Todo({ navigation }: TodosProps) {
         onChangeDate={onChangeDate}
         date={date}
       />
-      <FlatList data={tasksStateList.tasks} renderItem={renderItem} />
+
+      <FlatList
+        onRefresh={fetchList}
+        refreshing={isLoading}
+        keyExtractor={item => item.id}
+        data={tasks}
+        renderItem={({ item }: { item: Task }) => <RenderItem item={item} />}
+        ItemSeparatorComponent={() => <Separator />}
+      />
+
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={() => {
@@ -129,6 +138,11 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   floatingButtonText: { color: COLORS.white, fontSize: 30, fontWeight: 'bold' },
+  itemSeparator: {
+    flex: 1,
+    height: 1,
+    backgroundColor: COLORS.lightGrey,
+  },
 });
 
 export default Todo;
