@@ -140,8 +140,7 @@ const styles = StyleSheet.create({
   floatingButtonText: { color: COLORS.white, fontSize: 30, fontWeight: 'bold' },
   itemSeparator: {
     flex: 1,
-    height: 1,
-    backgroundColor: COLORS.lightGrey,
+    height: 10,
   },
 });
 
