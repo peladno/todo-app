@@ -5,6 +5,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { Button, Input, ModalComp } from '../../../components';
 import { TodoModalProps } from '../../../types/modals';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { addTask } from '../../../store/todo/todo.slice';
+import { AuthState } from '../../../types/authSlice';
 
 export default function ModalTodo({
   modalVisible,
@@ -17,7 +20,31 @@ export default function ModalTodo({
   onChangeDate,
   date,
 }: TodoModalProps) {
-  console.log(isFormValid);
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector<AuthState>(state => state.auth);
+
+  const handleForm = () => {
+    const taskData = {
+      userId: auth.user?.uid,
+      title: formState.task.value,
+      description: formState.description.value,
+      dueDate: date,
+      creationDate: new Date(),
+      status: 'pending',
+      id: new Date().getTime().toString(),
+    };
+
+    dispatch(addTask(taskData))
+      .then(response => {
+        if (response.meta.requestStatus === 'fulfilled') {
+          closeModal();
+        }
+      })
+      .catch(error => {
+        // Error occurred while adding the task
+        alert('Error adding task:', error);
+      });
+  };
 
   return (
     <ModalComp modalVisible={modalVisible} closeModal={closeModal}>
@@ -73,7 +100,7 @@ export default function ModalTodo({
           text="Close"
         />
         <Button
-          handleButton={() => {}}
+          handleButton={handleForm}
           formValid={isFormValid}
           width={100}
           text="Add"

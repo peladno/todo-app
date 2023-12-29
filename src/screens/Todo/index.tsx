@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-
+import { View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { TodosProps } from '../../types/navigation';
 import { COLORS } from '../../constants/theme/colors';
 import {
@@ -14,10 +13,22 @@ import { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import ModalTodo from './components/modalTodo';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { fetchTasks } from '../../store/todo/todo.slice';
+import { Task, TodoState } from '../../types/todoSlice';
+import RenderItem from './components/renderItem';
+import { AuthState } from '../../types/authSlice';
+
+const Separator = () => <View style={styles.itemSeparator} />;
 
 function Todo({ navigation }: TodosProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [date, setDate] = useState(new Date());
+
+  const dispatch = useAppDispatch();
+  const { tasks, isLoading } = useAppSelector<TodoState>(state => state.todo);
+  const { user } = useAppSelector<AuthState>(state => state.auth);
+  const filteredTasks = tasks.filter(task => task.userId === user?.uid);
 
   const onChangeDate = (event: DateTimePickerEvent, selectedDate?: Date) => {
     const currentDate = selectedDate || new Date();
@@ -64,6 +75,14 @@ function Todo({ navigation }: TodosProps) {
     clearInput('description');
   };
 
+  const fetchList = () => {
+    dispatch(fetchTasks());
+  };
+
+  useEffect(() => {
+    fetchList();
+  }, []);
+
   return (
     <View style={styles.container}>
       <ModalTodo
@@ -77,6 +96,21 @@ function Todo({ navigation }: TodosProps) {
         onChangeDate={onChangeDate}
         date={date}
       />
+
+      <FlatList
+        onRefresh={fetchList}
+        refreshing={isLoading}
+        keyExtractor={item => item.id}
+        data={filteredTasks}
+        renderItem={({ item }: { item: Task }) => (
+          <View style={styles.shadow}>
+            <RenderItem item={item} />
+          </View>
+        )}
+        ItemSeparatorComponent={Separator}
+        ListHeaderComponent={Separator}
+      />
+
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={() => {
@@ -89,7 +123,6 @@ function Todo({ navigation }: TodosProps) {
 }
 
 const styles = StyleSheet.create({
-  slider: {},
   container: { flex: 1 },
   floatingButton: {
     alignItems: 'center',
@@ -103,6 +136,24 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   floatingButtonText: { color: COLORS.white, fontSize: 30, fontWeight: 'bold' },
+  itemSeparator: {
+    flex: 1,
+    height: 10,
+  },
+  shadow: {
+    marginHorizontal: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+    backgroundColor: COLORS.white,
+    borderRadius: 10,
+  },
 });
 
 export default Todo;
