@@ -12,7 +12,9 @@ export default function RenderItem({ item }: TodoItemProps) {
     // <View style={styles.shadow}>
     <SwipeableComp>
       <View style={styles.itemContainer}>
-        <TouchableOpacity style={styles.task} onPress={() => alert(item.from)}>
+        <TouchableOpacity
+          style={styles.task}
+          onPress={() => console.log('pressed')}>
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.description}>
             Description: {item.description}

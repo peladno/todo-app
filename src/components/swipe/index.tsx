@@ -1,5 +1,5 @@
 import React, { ReactNode, useRef } from 'react';
-import { Animated, I18nManager, StyleSheet, Text, View } from 'react-native';
+import { Animated, I18nManager, StyleSheet, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { COLORS } from '../../constants/theme/colors';
