@@ -42,7 +42,7 @@ export default function ModalTodo({
       })
       .catch(error => {
         // Error occurred while adding the task
-        alert('Error adding task:', error);
+        console.log('Error adding task:', error);
       });
   };
 
@@ -82,7 +82,7 @@ export default function ModalTodo({
             style={{
               fontWeight: 'bold',
             }}>
-            Task Deadline:
+            Task Day:
           </Text>
           <DateTimePicker
             testID="dateTimePicker"

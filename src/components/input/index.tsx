@@ -69,5 +69,11 @@ const styles = StyleSheet.create({
   errorContainer: {
     height: 18,
   },
-  textError: { fontSize: 9, marginLeft: 10, marginTop: 3, color: COLORS.red },
+  textError: {
+    fontSize: 9,
+    marginLeft: 10,
+    marginTop: 3,
+    color: COLORS.red,
+    fontWeight: '700',
+  },
 });

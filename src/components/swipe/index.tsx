@@ -105,7 +105,7 @@ export default function SwipeComp({ children }: SwipeCompProps) {
   return (
     <Swipeable
       containerStyle={{
-        borderRadius: 10,
+        borderRadius: 15,
       }}
       ref={swipeableRowRef}
       friction={2}

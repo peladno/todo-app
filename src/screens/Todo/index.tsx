@@ -102,11 +102,7 @@ function Todo({ navigation }: TodosProps) {
         refreshing={isLoading}
         keyExtractor={item => item.id}
         data={filteredTasks}
-        renderItem={({ item }: { item: Task }) => (
-          <View style={styles.shadow}>
-            <RenderItem item={item} />
-          </View>
-        )}
+        renderItem={({ item }: { item: Task }) => <RenderItem item={item} />}
         ItemSeparatorComponent={Separator}
         ListHeaderComponent={Separator}
       />
@@ -139,20 +135,6 @@ const styles = StyleSheet.create({
   itemSeparator: {
     flex: 1,
     height: 10,
-  },
-  shadow: {
-    marginHorizontal: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
-    backgroundColor: COLORS.white,
-    borderRadius: 10,
   },
 });
 
