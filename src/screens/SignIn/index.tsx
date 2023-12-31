@@ -4,10 +4,11 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
+  Text,
+  Image,
 } from 'react-native';
 
 import { COLORS } from '../../constants/theme/colors';
-import LinearGradient from 'react-native-linear-gradient';
 import {
   FormState,
   onBlurProps,
@@ -68,10 +69,7 @@ function SignIn() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <LinearGradient
-        colors={[`${COLORS.primary}`, `${'#7a77e3'}`]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0.8, y: 0 }}
+      <View
         style={{
           ...styles.container,
           paddingTop: insets.top,
@@ -81,13 +79,13 @@ function SignIn() {
           buttonTitle="Get started"
           screenName={SIGNUP}
         />
-        <View
-          style={{
-            flex: 1,
-            width: '100%',
-            justifyContent: 'flex-end',
-          }}>
+        <View style={styles.innerContainer}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Welcome Back</Text>
+            <Text style={styles.subtitle}>Sign in to your account</Text>
+          </View>
           <View style={styles.formContainer}>
+            <Text style={styles.signinTitle}>Sign In</Text>
             <Input
               active={formState.email.active}
               error={formState.email.error}
@@ -113,7 +111,6 @@ function SignIn() {
               value={formState.password.value}
               secureTextEntry
             />
-
             <Button
               handleButton={handleSignIn}
               formValid={isFormValid}
@@ -121,7 +118,7 @@ function SignIn() {
             />
           </View>
         </View>
-      </LinearGradient>
+      </View>
     </TouchableWithoutFeedback>
   );
 }
@@ -149,6 +146,25 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     height: '80%',
     padding: 20,
+  },
+  title: {
+    color: COLORS.white,
+    fontWeight: 'bold',
+    fontSize: 30,
+    marginBottom: 5,
+  },
+  subtitle: { color: COLORS.white },
+  innerContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'flex-end',
+  },
+  titleContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  signinTitle: {
+    color: COLORS.primary,
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
 });
 

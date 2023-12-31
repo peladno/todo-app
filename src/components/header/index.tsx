@@ -27,13 +27,18 @@ export default function Header({
       <View>
         {goBack === false ? (
           <TouchableOpacity
+            style={{
+              backgroundColor: COLORS.white,
+              padding: 10,
+              borderRadius: 9999,
+            }}
             onPress={() => {
               navigation.goBack();
             }}>
             <FontAwesomeIcon
               icon={faChevronLeft}
-              color={COLORS.white}
-              size={23}
+              color={COLORS.primary}
+              size={15}
             />
           </TouchableOpacity>
         ) : null}

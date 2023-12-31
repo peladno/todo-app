@@ -8,8 +8,8 @@ import { faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 type SwipeCompProps = {
   children: ReactNode;
-  completeIt?: () => void;
-  deleteIt?: () => void;
+  completeIt: () => void;
+  deleteIt: () => void;
 };
 
 export default function SwipeComp({
@@ -32,6 +32,7 @@ export default function SwipeComp({
     });
 
     const pressHandler = () => {
+      deleteIt();
       swipeableRowRef.current?.close();
     };
 
@@ -62,7 +63,8 @@ export default function SwipeComp({
     );
 
     const pressHandler = () => {
-      swipeableRowRef.current?.close(), completeIt();
+      completeIt();
+      swipeableRowRef.current?.close();
     };
 
     return (

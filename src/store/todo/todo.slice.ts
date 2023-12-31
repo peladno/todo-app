@@ -14,7 +14,10 @@ export const fetchTasks = createAsyncThunk(
   `todo/${TodoActionTypes.FETCH_TASK}`,
   async (_, thunkAPI) => {
     try {
-      const tasks = await firestore().collection('tasks').get();
+      const tasks = await firestore()
+        .collection('tasks')
+        .orderBy('creationDate', 'asc')
+        .get();
       return tasks.docs.map(doc => ({ db_id: doc.id, ...doc.data() }));
     } catch (error) {
       thunkAPI.rejectWithValue(error);

@@ -4,9 +4,9 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
+  Text,
 } from 'react-native';
 
-import LinearGradient from 'react-native-linear-gradient';
 import {
   FormState,
   onBlurProps,
@@ -69,10 +69,7 @@ function SignUp() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <LinearGradient
-        colors={[`${COLORS.primary}`, `${'#7a77e3'}`]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0.8, y: 0 }}
+      <View
         style={{
           ...styles.container,
           paddingTop: insets.top,
@@ -83,13 +80,13 @@ function SignUp() {
           screenName={SIGNIN}
           goBack={false}
         />
-        <View
-          style={{
-            flex: 1,
-            width: '100%',
-            justifyContent: 'flex-end',
-          }}>
+        <View style={styles.innerContainer}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Let's Sart</Text>
+            <Text style={styles.subtitle}>Create an account</Text>
+          </View>
           <View style={styles.formContainer}>
+            <Text style={styles.signupTitle}>Sign Up</Text>
             <Input
               active={formState.email.active}
               error={formState.email.error}
@@ -122,7 +119,7 @@ function SignUp() {
             />
           </View>
         </View>
-      </LinearGradient>
+      </View>
     </TouchableWithoutFeedback>
   );
 }
@@ -147,6 +144,25 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     height: '80%',
     padding: 20,
+  },
+  title: {
+    color: COLORS.white,
+    fontWeight: 'bold',
+    fontSize: 30,
+    marginBottom: 5,
+  },
+  subtitle: { color: COLORS.white },
+  innerContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'flex-end',
+  },
+  titleContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  signupTitle: {
+    color: COLORS.primary,
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
 });
 

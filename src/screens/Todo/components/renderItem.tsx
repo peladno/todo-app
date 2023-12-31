@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { Task } from '../../../types/todoSlice';
 import { COLORS } from '../../../constants/theme/colors';
 import { SwipeableComp } from '../../../components';
@@ -17,14 +17,14 @@ export default function RenderItem({ item }: TodoItemProps) {
   const dispatch = useAppDispatch();
   const auth = useAppSelector<AuthState>(state => state.auth);
 
-  const handleComplete = () => {
+  const handleAction = (status: string) => {
     const task = {
       userId: auth.user?.uid,
       title: item.title,
       description: item.description,
       dueDate: item.dueDate,
       creationDate: item.creationDate,
-      status: 'completed',
+      status: status,
       id: item.id,
     };
     const id = item.db_id as string;
@@ -32,56 +32,70 @@ export default function RenderItem({ item }: TodoItemProps) {
     dispatch(updateTask({ task, id }))
       .then(response => {
         if (response.meta.requestStatus === 'fulfilled') {
-          console.log('Task completed');
+          console.log(`Task ${status}`);
         }
       })
       .catch(error => {
-        console.log('Error completing task:', error);
+        console.log(`Error ${status}ing task:`, error);
       });
   };
-  const handleDelete = () => {};
+
   return (
-    <>
-      {item.status === 'completed' ? (
-        <View style={[styles.itemChanged, { backgroundColor: COLORS.green }]}>
-          <FontAwesomeIcon icon={faCheck} color="white" size={20} />
-          <View style={styles.innerItem}>
-            <Text style={styles.title2}>{item.title}</Text>
-            <Text style={styles.description2}>
-              Description: {item.description}
-            </Text>
-          </View>
-        </View>
-      ) : item.status === 'deleted' ? (
-        <View style={[styles.itemChanged, { backgroundColor: COLORS.red }]}>
-          <FontAwesomeIcon icon={faTrash} color="white" size={18} />
+    <View
+      style={[
+        styles.shadow,
+        {
+          backgroundColor:
+            item.status === 'completed'
+              ? COLORS.green
+              : item.status === 'deleted'
+              ? COLORS.red
+              : COLORS.white,
+        },
+      ]}>
+      {item.status === 'completed' || item.status === 'deleted' ? (
+        <View style={styles.itemChanged}>
+          <FontAwesomeIcon
+            icon={item.status === 'completed' ? faCheck : faTrash}
+            color="white"
+            size={item.status === 'completed' ? 20 : 18}
+          />
           <View style={styles.innerItem}>
             <Text
-              style={[styles.title2, { textDecorationLine: 'line-through' }]}>
+              style={[
+                styles.title2,
+                {
+                  textDecorationLine:
+                    item.status === 'completed' ? 'none' : 'line-through',
+                },
+              ]}>
               {item.title}
             </Text>
             <Text
               style={[
                 styles.description2,
-                { textDecorationLine: 'line-through' },
+                {
+                  textDecorationLine:
+                    item.status === 'completed' ? 'none' : 'line-through',
+                },
               ]}>
               Description: {item.description}
             </Text>
           </View>
         </View>
       ) : (
-        <View style={styles.shadow}>
-          <SwipeableComp deleteIt={handleDelete} completeIt={handleComplete}>
-            <View style={styles.itemContainer}>
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.description}>
-                Description: {item.description}
-              </Text>
-            </View>
-          </SwipeableComp>
-        </View>
+        <SwipeableComp
+          deleteIt={() => handleAction('deleted')}
+          completeIt={() => handleAction('completed')}>
+          <View style={styles.itemContainer}>
+            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.description}>
+              Description: {item.description}
+            </Text>
+          </View>
+        </SwipeableComp>
       )}
-    </>
+    </View>
   );
 }
 
