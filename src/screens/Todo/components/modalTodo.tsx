@@ -6,7 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Button, Input, ModalComp } from '../../../components';
 import { TodoModalProps } from '../../../types/modals';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { addTask } from '../../../store/todo/todo.slice';
+import { addTask, fetchTasks } from '../../../store/todo/todo.slice';
 import { AuthState } from '../../../types/authSlice';
 
 export default function ModalTodo({
@@ -37,6 +37,7 @@ export default function ModalTodo({
     dispatch(addTask(taskData))
       .then(response => {
         if (response.meta.requestStatus === 'fulfilled') {
+          dispatch(fetchTasks());
           closeModal();
         }
       })

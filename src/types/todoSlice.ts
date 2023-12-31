@@ -6,6 +6,7 @@ export type Task = {
   dueDate: Date;
   creationDate: Date;
   status: string;
+  db_id?: string;
 };
 
 export type TodoState = {

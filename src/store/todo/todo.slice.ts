@@ -15,7 +15,7 @@ export const fetchTasks = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const tasks = await firestore().collection('tasks').get();
-      return tasks.docs.map(doc => doc.data() as Task);
+      return tasks.docs.map(doc => ({ db_id: doc.id, ...doc.data() }));
     } catch (error) {
       thunkAPI.rejectWithValue(error);
     }
@@ -51,10 +51,13 @@ export const deleteTask = createAsyncThunk(
 // Async thunk for updating a task from Firebase
 export const updateTask = createAsyncThunk(
   `todo/${TodoActionTypes.EDIT_TASK}`,
-  async (task: Task, thunkAPI) => {
+  async (payload: { task: Task; id: string }, thunkAPI) => {
     try {
-      await firestore().collection('tasks').doc(task.id).update(task);
-      return task;
+      await firestore()
+        .collection('tasks')
+        .doc(payload.id)
+        .update(payload.task);
+      return payload.task;
     } catch (error) {
       thunkAPI.rejectWithValue(error);
     }
@@ -107,6 +110,24 @@ const todoSlice = createSlice({
         state.tasks = state.tasks?.filter(task => task.id !== taskId);
       })
       .addCase(deleteTask.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.error = action.error.message;
+      })
+      .addCase(updateTask.pending, state => {
+        state.isLoading = true;
+        state.isError = false;
+        state.error = null;
+      })
+      .addCase(updateTask.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const updatedTask = action.payload as Task;
+        // Update the task in the state based on its id
+        state.tasks = state.tasks.map(task =>
+          task.id === updatedTask.id ? updatedTask : task,
+        );
+      })
+      .addCase(updateTask.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.error = action.error.message;

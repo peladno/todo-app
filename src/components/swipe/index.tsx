@@ -8,9 +8,15 @@ import { faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 type SwipeCompProps = {
   children: ReactNode;
+  completeIt?: () => void;
+  deleteIt?: () => void;
 };
 
-export default function SwipeComp({ children }: SwipeCompProps) {
+export default function SwipeComp({
+  children,
+  deleteIt,
+  completeIt,
+}: SwipeCompProps) {
   const swipeableRowRef = useRef<Swipeable>(null);
 
   const renderRightAction = (
@@ -56,7 +62,7 @@ export default function SwipeComp({ children }: SwipeCompProps) {
     );
 
     const pressHandler = () => {
-      swipeableRowRef.current?.close();
+      swipeableRowRef.current?.close(), completeIt();
     };
 
     return (
