@@ -5,7 +5,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Text,
-  Image,
 } from 'react-native';
 
 import { COLORS } from '../../constants/theme/colors';

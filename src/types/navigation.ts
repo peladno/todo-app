@@ -9,6 +9,7 @@ export type RootStackParamList = {
 export type AuthStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
+  Home: undefined;
 };
 
 export type TodosProps = NativeStackScreenProps<RootStackParamList, 'Todos'>;
@@ -19,3 +20,4 @@ export type SettingsProps = NativeStackScreenProps<
 >;
 export type SignInProps = NativeStackScreenProps<AuthStackParamList, 'SignIn'>;
 export type SignUpProps = NativeStackScreenProps<AuthStackParamList, 'SignUp'>;
+export type HomeProps = NativeStackScreenProps<AuthStackParamList, 'Home'>;
