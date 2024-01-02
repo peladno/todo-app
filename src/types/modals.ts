@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import { FormState, onBlurProps, onChangeProps, onfocusProps } from './input';
-import { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 
 export type ModalProps = {
   modalVisible: boolean;
@@ -16,6 +15,6 @@ export type TodoModalProps = {
   isFormValid: boolean;
   onFocusHandler: (props: onfocusProps) => void;
   onBlurHandler: (props: onBlurProps) => void;
-  onChangeDate: (event: DateTimePickerEvent, selectedDate?: Date) => void;
-  date: Date;
+  onChangeDate: (selectedDate?: Date) => void;
+  date: Date | null;
 };

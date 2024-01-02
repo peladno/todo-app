@@ -37,7 +37,7 @@ export default function Home({ navigation }: HomeProps) {
                 marginBottom: 20,
                 fontSize: 13,
               }}>
-              Add all the events or task do you have daily and never forget
+              Add all the events or tasks and never forget them.
             </Text>
             <Button
               handleButton={() => {

@@ -9,7 +9,6 @@ import {
   onfocusProps,
 } from '../../types/input';
 import { useForm } from '../../hooks/useForm';
-import { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import ModalTodo from './components/modalTodo';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -23,14 +22,15 @@ const Separator = () => <View style={styles.itemSeparator} />;
 
 function Todo({ navigation }: TodosProps) {
   const [modalVisible, setModalVisible] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date | null>(null);
 
   const dispatch = useAppDispatch();
   const { tasks, isLoading } = useAppSelector<TodoState>(state => state.todo);
   const { user } = useAppSelector<AuthState>(state => state.auth);
+
   const filteredTasks = tasks.filter(task => task.userId === user?.uid);
 
-  const onChangeDate = (event: DateTimePickerEvent, selectedDate?: Date) => {
+  const onChangeDate = (selectedDate?: Date) => {
     const currentDate = selectedDate || new Date();
     setDate(currentDate);
   };
@@ -105,6 +105,7 @@ function Todo({ navigation }: TodosProps) {
         renderItem={({ item }: { item: Task }) => <RenderItem item={item} />}
         ItemSeparatorComponent={Separator}
         ListHeaderComponent={Separator}
+        ListFooterComponent={Separator}
       />
 
       <TouchableOpacity
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     right: 30,
     height: 65,
     bottom: 60,
-    backgroundColor: COLORS.secondary,
+    backgroundColor: COLORS.primary,
     borderRadius: 100,
   },
   floatingButtonText: { color: COLORS.white, fontSize: 30, fontWeight: 'bold' },

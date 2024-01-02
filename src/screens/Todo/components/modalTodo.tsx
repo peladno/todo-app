@@ -1,13 +1,11 @@
-import { View, Text, StyleSheet } from 'react-native';
-import React from 'react';
-
-import DateTimePicker from '@react-native-community/datetimepicker';
-
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import { Button, Input, ModalComp } from '../../../components';
 import { TodoModalProps } from '../../../types/modals';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { addTask, fetchTasks } from '../../../store/todo/todo.slice';
 import { AuthState } from '../../../types/authSlice';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 export default function ModalTodo({
   modalVisible,
@@ -22,10 +20,11 @@ export default function ModalTodo({
 }: TodoModalProps) {
   const dispatch = useAppDispatch();
   const auth = useAppSelector<AuthState>(state => state.auth);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const handleForm = () => {
     const taskData = {
-      userId: auth.user?.uid,
+      userId: auth.user?.uid!,
       title: formState.task.value,
       description: formState.description.value,
       dueDate: date,
@@ -39,12 +38,26 @@ export default function ModalTodo({
         if (response.meta.requestStatus === 'fulfilled') {
           dispatch(fetchTasks());
           closeModal();
+          setDatePickerVisibility(false);
         }
       })
       .catch(error => {
         // Error occurred while adding the task
         console.log('Error adding task:', error);
       });
+  };
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (dateSelected: Date) => {
+    onChangeDate(dateSelected);
+    hideDatePicker();
   };
 
   return (
@@ -85,11 +98,16 @@ export default function ModalTodo({
             }}>
             Task Day:
           </Text>
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            is24Hour={true}
-            onChange={onChangeDate}
+          <TouchableOpacity onPress={showDatePicker}>
+            <Text>
+              {date ? new Date(date).toLocaleDateString() : 'Select date'}
+            </Text>
+          </TouchableOpacity>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
           />
         </View>
       </View>

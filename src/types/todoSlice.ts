@@ -1,9 +1,9 @@
 export type Task = {
   id: string;
-  userId: string | undefined;
+  userId: string;
   title: string;
   description: string;
-  dueDate: Date;
+  dueDate: Date | null;
   creationDate: Date;
   status: string;
   db_id?: string;

@@ -19,7 +19,7 @@ export default function RenderItem({ item }: TodoItemProps) {
 
   const handleAction = (status: string) => {
     const task = {
-      userId: auth.user?.uid,
+      userId: auth.user?.uid!,
       title: item.title,
       description: item.description,
       dueDate: item.dueDate,
@@ -113,14 +113,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 20,
     marginHorizontal: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
     borderRadius: 20,
   },
   shadow: {
@@ -133,7 +125,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
 
-    elevation: 5,
+    elevation: 8,
     backgroundColor: COLORS.white,
     borderRadius: 15,
   },
