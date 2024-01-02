@@ -75,7 +75,7 @@ function SignIn() {
         }}>
         <Header
           title="Don't have an account?"
-          buttonTitle="Get started"
+          buttonTitle="Register"
           screenName={SIGNUP}
         />
         <View style={styles.innerContainer}>

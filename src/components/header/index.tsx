@@ -18,30 +18,27 @@ export default function Header({
   title,
   buttonTitle,
   screenName,
-  goBack,
 }: HeaderProps) {
   const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
 
   return (
     <View style={styles.container}>
       <View>
-        {goBack === false ? (
-          <TouchableOpacity
-            style={{
-              backgroundColor: COLORS.white,
-              padding: 10,
-              borderRadius: 9999,
-            }}
-            onPress={() => {
-              navigation.goBack();
-            }}>
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              color={COLORS.primary}
-              size={15}
-            />
-          </TouchableOpacity>
-        ) : null}
+        <TouchableOpacity
+          style={{
+            backgroundColor: COLORS.white,
+            padding: 10,
+            borderRadius: 9999,
+          }}
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <FontAwesomeIcon
+            icon={faChevronLeft}
+            color={COLORS.primary}
+            size={15}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer}>
         <Text style={styles.title}>{title}</Text>
