@@ -78,7 +78,6 @@ function SignUp() {
           title="Already have an account?"
           buttonTitle="Sign in"
           screenName={SIGNIN}
-          goBack={false}
         />
         <View style={styles.innerContainer}>
           <View style={styles.titleContainer}>
