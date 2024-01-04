@@ -10,7 +10,8 @@
 
 // module.exports = mergeConfig(getDefaultConfig(__dirname), config);
 
-const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+const { getDefaultConfig } = require('expo/metro-config');
+const { mergeConfig } = require('@react-native/metro-config');
 
 const defaultConfig = getDefaultConfig(__dirname);
 const { assetExts, sourceExts } = defaultConfig.resolver;
@@ -27,8 +28,16 @@ const config = {
   },
   resolver: {
     assetExts: assetExts.filter((ext) => ext !== "svg"),
-    sourceExts: [...sourceExts, 'svg']
+    sourceExts: [...sourceExts, 'svg', 'cjs']
   }
 };
 
 module.exports = mergeConfig(defaultConfig, config);
+
+
+// const { getDefaultConfig } = require('@expo/metro-config');
+
+// const defaultConfig = getDefaultConfig(__dirname);
+// defaultConfig.resolver.sourceExts.push('cjs');
+
+// module.exports = defaultConfig;

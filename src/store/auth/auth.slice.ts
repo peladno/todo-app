@@ -1,7 +1,14 @@
-import auth from '@react-native-firebase/auth';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AuthActionTypes, AuthState } from '../../types/authSlice';
-import firestore from '@react-native-firebase/firestore';
+// import firestore from '@react-native-firebase/firestore';
+import {
+  addDoc,
+  auth,
+  collection,
+  createUserWithEmailAndPassword,
+  db,
+  signInWithEmailAndPassword,
+} from '../../../firebaseConfig';
 
 // Define the initial state for the authentication slice
 const initialState: AuthState = {
@@ -18,7 +25,8 @@ export const signIn = createAsyncThunk(
   async (payload: { email: string; password: string }, thunkAPI) => {
     try {
       // Attempt to sign in using Firebase authentication
-      const response = await auth().signInWithEmailAndPassword(
+      const response = await signInWithEmailAndPassword(
+        auth,
         payload.email,
         payload.password,
       );
@@ -36,12 +44,13 @@ export const signUp = createAsyncThunk(
   async (payload: { email: string; password: string }, thunkAPI) => {
     try {
       // Attempt to create a new user using Firebase authentication
-      const response = await auth().createUserWithEmailAndPassword(
+      const response = await createUserWithEmailAndPassword(
+        auth,
         payload.email,
         payload.password,
       );
       // Add the user to the Firestore collection
-      await firestore().collection('users').doc(response.user.uid).set({
+      await addDoc(collection(db, 'users'), {
         uid: response.user.uid,
         email: response.user.email,
       });
