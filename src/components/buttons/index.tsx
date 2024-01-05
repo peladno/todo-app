@@ -39,13 +39,7 @@ export default function Button({
           backgroundColor: colorbg,
           borderWidth: border,
           borderColor: borderColor,
-        }}
-        // colors={
-        //   isFormValid
-        //     ? [`${COLORS.primary}`, `${COLORS.pink}`]
-        //     : [`${COLORS.greyLetter}`, `${COLORS.greyLetter}`]
-        // }
-      >
+        }}>
         <Text style={[styles.textButton, { color: colortxt }]}>{text}</Text>
       </View>
     </TouchableOpacity>

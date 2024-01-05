@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { addTask, fetchTasks } from '../../../store/todo/todo.slice';
 import { AuthState } from '../../../types/authSlice';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { COLORS } from '../../../constants/theme/colors';
 
 export default function ModalTodo({
   modalVisible,
@@ -21,30 +22,36 @@ export default function ModalTodo({
   const dispatch = useAppDispatch();
   const auth = useAppSelector<AuthState>(state => state.auth);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [errorDate, setErrorDate] = useState(false);
 
   const handleForm = () => {
-    const taskData = {
-      userId: auth.user?.uid!,
-      title: formState.task.value,
-      description: formState.description.value,
-      dueDate: date,
-      creationDate: new Date(),
-      status: 'pending',
-      id: new Date().getTime().toString(),
-    };
+    if (date) {
+      const taskData = {
+        userId: auth.user?.uid!,
+        title: formState.task.value,
+        description: formState.description.value,
+        dueDate: date,
+        creationDate: new Date(),
+        status: 'pending',
+        id: new Date().getTime().toString(),
+      };
 
-    dispatch(addTask(taskData))
-      .then(response => {
-        if (response.meta.requestStatus === 'fulfilled') {
-          dispatch(fetchTasks());
-          closeModal();
-          setDatePickerVisibility(false);
-        }
-      })
-      .catch(error => {
-        // Error occurred while adding the task
-        console.log('Error adding task:', error);
-      });
+      dispatch(addTask(taskData))
+        .then(response => {
+          if (response.meta.requestStatus === 'fulfilled') {
+            dispatch(fetchTasks());
+            closeModal();
+            setDatePickerVisibility(false);
+          }
+        })
+        .catch(error => {
+          // Error occurred while adding the task
+          console.log('Error adding task:', error);
+        });
+      setErrorDate(false);
+    } else {
+      setErrorDate(true);
+    }
   };
 
   const showDatePicker = () => {
@@ -58,6 +65,7 @@ export default function ModalTodo({
   const handleConfirm = (dateSelected: Date) => {
     onChangeDate(dateSelected);
     hideDatePicker();
+    setErrorDate(false);
   };
 
   return (
@@ -92,12 +100,17 @@ export default function ModalTodo({
           onFocus={() => onFocusHandler({ name: formState.description.name })}
         />
         <View style={styles.dateContainer}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-            }}>
-            Task Day:
-          </Text>
+          <View>
+            <Text
+              style={{
+                fontWeight: 'bold',
+              }}>
+              Task Day:
+            </Text>
+            {errorDate && (
+              <Text style={styles.errorDate}>*Select Date to continue.</Text>
+            )}
+          </View>
           <TouchableOpacity onPress={showDatePicker}>
             <Text>
               {date ? new Date(date).toLocaleDateString() : 'Select date'}
@@ -144,4 +157,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10,
   },
+  errorDate: { color: COLORS.red, fontSize: 10, fontWeight: '600' },
 });

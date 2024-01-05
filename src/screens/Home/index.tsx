@@ -19,24 +19,11 @@ export default function Home({ navigation }: HomeProps) {
           </View>
         </View>
         <View style={styles.buttonsContainer}>
-          <View style={{ width: '80%' }}>
-            <Text
-              style={{
-                color: COLORS.white,
-                fontSize: 18,
-                textAlign: 'center',
-                fontWeight: '900',
-              }}>
+          <View style={styles.innerButtonContainer}>
+            <Text style={styles.title}>
               There is a lot of things happening in your life
             </Text>
-            <Text
-              style={{
-                color: COLORS.white,
-                textAlign: 'center',
-                marginTop: 20,
-                marginBottom: 20,
-                fontSize: 13,
-              }}>
+            <Text style={styles.subTitle}>
               Add all the events or tasks and never forget them.
             </Text>
             <Button
@@ -81,6 +68,9 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 70,
     alignItems: 'center',
   },
+  innerButtonContainer: {
+    width: '80%',
+  },
   imgContainer: {
     flex: 1,
     backgroundColor: COLORS.primary,
@@ -95,5 +85,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     alignItems: 'center',
+  },
+  title: {
+    color: COLORS.white,
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: '900',
+  },
+  subTitle: {
+    color: COLORS.white,
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+    fontSize: 13,
   },
 });

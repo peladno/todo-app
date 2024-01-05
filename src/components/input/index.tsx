@@ -35,6 +35,7 @@ export default function Input({
           <TextInput
             style={styles.input}
             placeholder={placeholder}
+            placeholderTextColor={COLORS.lightGrey}
             value={value}
             onChangeText={text => onChange({ text, name })}
             onFocus={() => onFocus({ name })}
@@ -51,10 +52,9 @@ export default function Input({
 }
 
 const styles = StyleSheet.create({
-  input: { paddingTop: 2 },
+  input: { height: 25 },
   container: {
     height: 50,
-    // borderWidth: 1,
     borderColor: COLORS.grey,
     borderRadius: 10,
     padding: 8,
@@ -63,8 +63,9 @@ const styles = StyleSheet.create({
   },
   label: {
     color: COLORS.greyLetter,
-    marginBottom: 3,
+    marginBottom: 2,
     fontSize: 10,
+    fontWeight: '700',
   },
   errorContainer: {
     height: 18,

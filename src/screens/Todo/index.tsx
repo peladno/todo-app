@@ -73,6 +73,7 @@ function Todo({ navigation }: TodosProps) {
     setModalVisible(false);
     clearInput('task');
     clearInput('description');
+    setDate(null);
   };
 
   const fetchList = () => {
@@ -131,6 +132,15 @@ const styles = StyleSheet.create({
     bottom: 60,
     backgroundColor: COLORS.primary,
     borderRadius: 100,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
   floatingButtonText: { color: COLORS.white, fontSize: 30, fontWeight: 'bold' },
   itemSeparator: {
