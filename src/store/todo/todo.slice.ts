@@ -1,6 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import firestore from '@react-native-firebase/firestore';
 import { Task, TodoActionTypes, TodoState } from '../../types/todoSlice';
+import {
+  addDoc,
+  collection,
+  db,
+  getDocs,
+  orderBy,
+  query,
+  doc,
+  setDoc,
+  deleteDoc,
+} from '../../../firebaseConfig';
 
 const initialState: TodoState = {
   tasks: [],
@@ -14,11 +24,13 @@ export const fetchTasks = createAsyncThunk(
   `todo/${TodoActionTypes.FETCH_TASK}`,
   async (_, thunkAPI) => {
     try {
-      const tasks = await firestore()
-        .collection('tasks')
-        .orderBy('creationDate', 'asc')
-        .get();
-      return tasks.docs.map(doc => ({ db_id: doc.id, ...doc.data() }));
+      const tasksAll = query(
+        collection(db, 'tasks'),
+        orderBy('creationDate', 'asc'),
+      );
+
+      const tasks = await getDocs(tasksAll);
+      return tasks.docs.map(docu => ({ db_id: docu.id, ...docu.data() }));
     } catch (error) {
       thunkAPI.rejectWithValue(error);
     }
@@ -30,7 +42,8 @@ export const addTask = createAsyncThunk(
   `todo/${TodoActionTypes.ADD_TASK}`,
   async (task: Task, thunkAPI) => {
     try {
-      await firestore().collection('tasks').add(task);
+      const res = await addDoc(collection(db, 'tasks'), task);
+      console.log(res);
       return task;
     } catch (error) {
       thunkAPI.rejectWithValue(error);
@@ -43,7 +56,9 @@ export const deleteTask = createAsyncThunk(
   `todo/${TodoActionTypes.DELETE_TASK}`,
   async (taskId: string, thunkAPI) => {
     try {
-      await firestore().collection('tasks').doc(taskId).delete();
+      //await firestore().collection('tasks').doc(taskId).delete();
+      const docRef = doc(db, 'tasks', taskId);
+      deleteDoc(docRef);
       return taskId;
     } catch (error) {
       thunkAPI.rejectWithValue(error);
@@ -56,10 +71,8 @@ export const updateTask = createAsyncThunk(
   `todo/${TodoActionTypes.EDIT_TASK}`,
   async (payload: { task: Task; id: string }, thunkAPI) => {
     try {
-      await firestore()
-        .collection('tasks')
-        .doc(payload.id)
-        .update(payload.task);
+      const docRef = doc(db, 'tasks', payload.id);
+      await setDoc(docRef, payload.task);
       return payload.task;
     } catch (error) {
       thunkAPI.rejectWithValue(error);
@@ -125,7 +138,6 @@ const todoSlice = createSlice({
       .addCase(updateTask.fulfilled, (state, action) => {
         state.isLoading = false;
         const updatedTask = action.payload as Task;
-        // Update the task in the state based on its id
         state.tasks = state.tasks.map(task =>
           task.id === updatedTask.id ? updatedTask : task,
         );

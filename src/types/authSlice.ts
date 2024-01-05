@@ -1,4 +1,4 @@
-import { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { User } from 'firebase/auth';
 
 export enum AuthActionTypes {
   SIGN_IN = 'SIGN_IN',
@@ -7,7 +7,7 @@ export enum AuthActionTypes {
   RESTORE_TOKEN = 'RESTORE_TOKEN',
 }
 
-export type AuthUser = FirebaseAuthTypes.User | null;
+export type AuthUser = User | null;
 
 export type AuthState = {
   isAuth: boolean;

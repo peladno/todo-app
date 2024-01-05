@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 
-export const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function TodoNavigator() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();

@@ -47,10 +47,10 @@ export const validateInput = ({
     case 'task':
       if (formValue === '') {
         hasError = true;
-        error = 'Task is required';
+        error = 'Task title is required';
       } else if (!textRegex.test(formValue)) {
         hasError = true;
-        error = 'Task is invalid';
+        error = 'Task title is invalid';
       } else {
         hasError = false;
         error = '';
@@ -59,10 +59,10 @@ export const validateInput = ({
     case 'description':
       if (formValue === '') {
         hasError = true;
-        error = 'Description is required';
+        error = 'Task description is required';
       } else if (!textRegex.test(formValue)) {
         hasError = true;
-        error = 'Description is invalid';
+        error = 'Task description is invalid';
       } else {
         hasError = false;
         error = '';
