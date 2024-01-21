@@ -3,8 +3,7 @@ import { Animated, I18nManager, StyleSheet, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { COLORS } from '../../constants/theme/colors';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 type SwipeCompProps = {
   children: ReactNode;
@@ -86,7 +85,7 @@ export default function SwipeComp({
         width: 100,
       }}>
       {renderRightAction(
-        <FontAwesomeIcon icon={faTrash} color="white" size={25} />,
+        <Ionicons name="trash" color="white" size={25} />,
         COLORS.red,
         100,
         progress,
@@ -102,7 +101,7 @@ export default function SwipeComp({
         width: 100,
       }}>
       {renderLeftAction(
-        <FontAwesomeIcon icon={faCheck} color="white" size={25} />,
+        <Ionicons name="checkmark-sharp" color="white" size={30} />,
         COLORS.green,
         100,
         progress,

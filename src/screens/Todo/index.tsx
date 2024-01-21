@@ -17,6 +17,7 @@ import { fetchTasks } from '../../store/todo/todo.slice';
 import { Task, TodoState } from '../../types/todoSlice';
 import RenderItem from './components/renderItem';
 import { AuthState } from '../../types/authSlice';
+import { Ionicons } from '@expo/vector-icons';
 
 const Separator = () => <View style={styles.itemSeparator} />;
 
@@ -82,6 +83,7 @@ function Todo({ navigation }: TodosProps) {
 
   useEffect(() => {
     fetchList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -114,14 +116,14 @@ function Todo({ navigation }: TodosProps) {
         onPress={() => {
           setModalVisible(!modalVisible);
         }}>
-        <FontAwesomeIcon icon={faPlus} color={COLORS.white} size={25} />
+        <Ionicons name="add" color={COLORS.white} size={25} />
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 1, backgroundColor: COLORS.background },
   floatingButton: {
     alignItems: 'center',
     justifyContent: 'center',

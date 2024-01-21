@@ -9,4 +9,5 @@ export const COLORS = {
   secondary: '#7373e5',
   lightGrey: '#cfcfcf',
   green: '#59b259',
+  background: '#f6f6f6',
 };

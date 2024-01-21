@@ -4,8 +4,8 @@ import AuthNavigator from './authNavigator';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useAppSelector } from '../hooks/redux';
 import { AuthState } from '../types/authSlice';
-import TodoNavigator from './todoNavigator';
 import { Alert } from 'react-native';
+import TabsNavigator from './tabs';
 
 export default function AppNavigator() {
   const auth = useAppSelector<AuthState>(state => state.auth);
@@ -20,7 +20,7 @@ export default function AppNavigator() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        {isAuth ? <TodoNavigator /> : <AuthNavigator />}
+        {isAuth ? <TabsNavigator /> : <AuthNavigator />}
       </NavigationContainer>
     </SafeAreaProvider>
   );

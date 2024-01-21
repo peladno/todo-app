@@ -1,11 +1,10 @@
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { COLORS } from '../../constants/theme/colors';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProp } from '@react-navigation/native';
 import { AuthStackParamList } from '../../types/navigation';
+import { Ionicons } from '@expo/vector-icons';
 
 type HeaderProps = {
   title: string;
@@ -33,11 +32,7 @@ export default function Header({
           onPress={() => {
             navigation.goBack();
           }}>
-          <FontAwesomeIcon
-            icon={faChevronLeft}
-            color={COLORS.primary}
-            size={15}
-          />
+          <Ionicons name="arrow-back" color={COLORS.primary} size={20} />
         </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer}>
