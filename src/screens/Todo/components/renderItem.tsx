@@ -19,12 +19,12 @@ export default function RenderItem({ item }: TodoItemProps) {
   const handleAction = (status: string) => {
     const task = {
       userId: auth.user?.uid!,
-      title: item.title,
-      description: item.description,
-      dueDate: item.dueDate,
-      creationDate: item.creationDate,
+      title: item?.title,
+      description: item?.description,
+      dueDate: item?.dueDate,
+      creationDate: item?.creationDate,
       status: status,
-      id: item.id,
+      id: item?.id,
     };
     const id = item.db_id as string;
 

@@ -10,7 +10,7 @@ export type Task = {
 };
 
 export type TodoState = {
-  user_id: string;
+  created_by: string | null;
   shared_users: [];
   tasks: Task[];
   isLoading: boolean;

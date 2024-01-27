@@ -6,9 +6,6 @@ import { Calendar, CreateTask, Settings } from '../screens';
 import { RootStackParamList } from '../types/navigation';
 import CustomTabBar from '../components/customTabBar';
 import { COLORS } from '../constants/theme/colors';
-import { TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 type TabParamList = {
   MainStack: RootStackParamList;

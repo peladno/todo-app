@@ -1,16 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Task, TodoActionTypes, TodoState } from '../../types/todoSlice';
-import {
-  addDoc,
-  collection,
-  db,
-  getDocs,
-  orderBy,
-  query,
-  doc,
-  setDoc,
-  deleteDoc,
-} from '../../../firebaseConfig';
+import { db, doc, setDoc, deleteDoc } from '../../../firebaseConfig';
+import { arrayUnion, getDoc, updateDoc } from 'firebase/firestore';
 
 // const initialState: TodoState = {
 //   tasks: [],
@@ -21,27 +12,27 @@ import {
 const initialState: TodoState = {
   shared_users: [],
   tasks: [],
-  user_id: '',
+  created_by: null,
   isLoading: false,
   isError: false,
   error: null,
 };
 
-// Async thunk for fetching tasks from Firebase
-//TODO fetch task by id, to avoid using filter
 export const fetchTasks = createAsyncThunk(
   `todo/${TodoActionTypes.FETCH_TASK}`,
-  async (_, thunkAPI) => {
+  async (userId: string, thunkAPI) => {
     try {
-      const tasksAll = query(
-        collection(db, 'tasks'),
-        orderBy('creationDate', 'asc'),
-      );
+      const taskDocRef = doc(db, 'task_list', userId);
+      const taskDocSnap = await getDoc(taskDocRef);
 
-      const tasks = await getDocs(tasksAll);
-      return tasks.docs.map(docu => ({ db_id: docu.id, ...docu.data() }));
+      if (taskDocSnap.exists()) {
+        const taskList = taskDocSnap.data()?.tasks || [];
+        return taskList;
+      } else {
+        return [];
+      }
     } catch (error) {
-      thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error);
     }
   },
 );
@@ -51,11 +42,19 @@ export const addTask = createAsyncThunk(
   `todo/${TodoActionTypes.ADD_TASK}`,
   async (task: Task, thunkAPI) => {
     try {
-      const res = await addDoc(collection(db, 'tasks'), task);
-      console.log(res);
+      const taskDocRef = doc(db, 'task_list', task.userId);
+
+      // Agregar una tarea a la matriz 'tasks' utilizando arrayUnion
+      await updateDoc(taskDocRef, {
+        tasks: arrayUnion({
+          ...task,
+        }),
+      });
+
       return task;
     } catch (error) {
-      thunkAPI.rejectWithValue(error);
+      // Utiliza `rejectWithValue` para manejar errores y devolver un valor rechazado con información sobre el error
+      return thunkAPI.rejectWithValue(error);
     }
   },
 );
@@ -66,7 +65,7 @@ export const deleteTask = createAsyncThunk(
   async (taskId: string, thunkAPI) => {
     try {
       //await firestore().collection('tasks').doc(taskId).delete();
-      const docRef = doc(db, 'tasks', taskId);
+      const docRef = doc(db, 'task_list', taskId);
       deleteDoc(docRef);
       return taskId;
     } catch (error) {
@@ -80,11 +79,24 @@ export const updateTask = createAsyncThunk(
   `todo/${TodoActionTypes.EDIT_TASK}`,
   async (payload: { task: Task; id: string }, thunkAPI) => {
     try {
-      const docRef = doc(db, 'tasks', payload.id);
-      await setDoc(docRef, payload.task);
-      return payload.task;
+      const docRef = doc(db, 'task_list', payload.task.userId);
+      const taskDocSnap = await getDoc(docRef);
+
+      if (taskDocSnap.exists()) {
+        const currentTasks = taskDocSnap.data()?.tasks || [];
+        const updatedTasks = currentTasks.map((task: { id: string }) =>
+          task.id === payload.task.id ? payload.task : task,
+        );
+        await updateDoc(docRef, {
+          tasks: updatedTasks,
+        });
+
+        return payload.task;
+      } else {
+        return thunkAPI.rejectWithValue("Document doesn't exist");
+      }
     } catch (error) {
-      thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error);
     }
   },
 );

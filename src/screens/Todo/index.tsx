@@ -27,8 +27,6 @@ function Todo({ navigation }: TodosProps) {
   const { tasks, isLoading } = useAppSelector<TodoState>(state => state.todo);
   const { user } = useAppSelector<AuthState>(state => state.auth);
 
-  const filteredTasks = tasks.filter(task => task.userId === user?.uid);
-
   const onChangeDate = (selectedDate?: Date) => {
     const currentDate = selectedDate || new Date();
     setDate(currentDate);
@@ -76,7 +74,9 @@ function Todo({ navigation }: TodosProps) {
   };
 
   const fetchList = () => {
-    dispatch(fetchTasks());
+    if (user?.uid) {
+      dispatch(fetchTasks(user.uid));
+    }
   };
 
   useEffect(() => {
@@ -102,7 +102,7 @@ function Todo({ navigation }: TodosProps) {
         onRefresh={fetchList}
         refreshing={isLoading}
         keyExtractor={item => item.id}
-        data={filteredTasks}
+        data={tasks}
         renderItem={({ item }: { item: Task }) => <RenderItem item={item} />}
         ItemSeparatorComponent={Separator}
         ListHeaderComponent={Separator}

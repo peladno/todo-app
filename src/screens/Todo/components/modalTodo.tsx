@@ -7,6 +7,7 @@ import { addTask, fetchTasks } from '../../../store/todo/todo.slice';
 import { AuthState } from '../../../types/authSlice';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { COLORS } from '../../../constants/theme/colors';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function ModalTodo({
   modalVisible,
@@ -24,6 +25,8 @@ export default function ModalTodo({
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [errorDate, setErrorDate] = useState(false);
 
+  const taskid = uuidv4();
+
   const handleForm = () => {
     if (date) {
       const taskData = {
@@ -33,13 +36,15 @@ export default function ModalTodo({
         dueDate: date,
         creationDate: new Date(),
         status: 'pending',
-        id: new Date().getTime().toString(),
+        id: taskid,
       };
 
       dispatch(addTask(taskData))
         .then(response => {
           if (response.meta.requestStatus === 'fulfilled') {
-            dispatch(fetchTasks());
+            if (auth.user?.uid) {
+              dispatch(fetchTasks(auth.user?.uid));
+            }
             closeModal();
             setDatePickerVisibility(false);
           }

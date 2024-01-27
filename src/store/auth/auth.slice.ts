@@ -7,6 +7,8 @@ import {
   collection,
   createUserWithEmailAndPassword,
   db,
+  doc,
+  setDoc,
   signInWithEmailAndPassword,
 } from '../../../firebaseConfig';
 
@@ -50,10 +52,19 @@ export const signUp = createAsyncThunk(
         payload.password,
       );
       // Add the user to the Firestore collection
-      await addDoc(collection(db, 'users'), {
-        uid: response.user.uid,
-        email: response.user.email,
-      });
+      if (response.user) {
+        await addDoc(collection(db, 'users'), {
+          uid: response.user.uid,
+          email: response.user.email,
+        });
+
+        await setDoc(doc(db, 'task_list', response.user.uid), {
+          shared_users: [],
+          tasks: {},
+          created_by: response.user.uid,
+        });
+      }
+
       return response.user;
     } catch (error: unknown) {
       // If there's an error, log it and reject the thunk with the error value
