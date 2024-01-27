@@ -10,6 +10,7 @@ import { useAppDispatch } from '../../hooks/redux';
 import { signOut } from '../../store/auth/auth.slice';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 type ItemData = {
   action: () => void;
@@ -32,7 +33,7 @@ export default function Settings() {
       id: 0,
       name: 'logout',
       title: 'Logout',
-      icon: <FontAwesomeIcon icon={faRightFromBracket} size={30} />,
+      icon: <Ionicons name="log-out-outline" size={30} color="black" />,
     },
   ];
 

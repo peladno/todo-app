@@ -5,9 +5,8 @@ import { DETAIL, SETTINGS, TODOS } from './routeNames';
 import { Details, Settings, Todo } from '../screens';
 import { COLORS } from '../constants/theme/colors';
 import { TouchableOpacity } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -16,6 +15,7 @@ export default function TodoNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{
+        title: 'Tasks',
         headerStyle: { backgroundColor: COLORS.primary },
         headerTintColor: COLORS.white,
         // eslint-disable-next-line react/no-unstable-nested-components
@@ -24,7 +24,7 @@ export default function TodoNavigator() {
             onPress={() => {
               navigation.navigate(SETTINGS);
             }}>
-            <FontAwesomeIcon icon={faGear} color={COLORS.white} size={20} />
+            <Ionicons name="settings-outline" color={COLORS.white} size={20} />
           </TouchableOpacity>
         ),
       }}

@@ -4,3 +4,7 @@ export const SIGNIN = 'SignIn';
 export const SIGNUP = 'SignUp';
 export const SETTINGS = 'Settings';
 export const HOME = 'Home';
+export const MAINSTACK = 'MainStack';
+export const PROFILE = 'Profile';
+export const CREATETASK = 'CreateTask';
+export const CALENDAR = 'Calendar';

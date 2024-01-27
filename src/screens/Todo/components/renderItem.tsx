@@ -3,11 +3,10 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Task } from '../../../types/todoSlice';
 import { COLORS } from '../../../constants/theme/colors';
 import { SwipeableComp } from '../../../components';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { AuthState } from '../../../types/authSlice';
 import { updateTask } from '../../../store/todo/todo.slice';
+import { Ionicons } from '@expo/vector-icons';
 
 type TodoItemProps = {
   item: Task;
@@ -55,8 +54,8 @@ export default function RenderItem({ item }: TodoItemProps) {
       ]}>
       {item.status === 'completed' || item.status === 'deleted' ? (
         <View style={styles.itemChanged}>
-          <FontAwesomeIcon
-            icon={item.status === 'completed' ? faCheck : faTrash}
+          <Ionicons
+            name={item.status === 'completed' ? 'checkmark-sharp' : 'trash'}
             color="white"
             size={item.status === 'completed' ? 20 : 18}
           />
@@ -113,7 +112,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 20,
     marginHorizontal: 10,
-    borderRadius: 20,
   },
   shadow: {
     marginHorizontal: 10,
@@ -127,13 +125,13 @@ const styles = StyleSheet.create({
 
     elevation: 8,
     backgroundColor: COLORS.white,
-    borderRadius: 15,
+    borderRadius: 20,
   },
   innerItem: {
     paddingLeft: 20,
     flexDirection: 'column',
     justifyContent: 'center',
-    height: 50,
+    height: 45,
   },
   title2: {
     color: COLORS.white,
