@@ -12,14 +12,23 @@ import {
   deleteDoc,
 } from '../../../firebaseConfig';
 
+// const initialState: TodoState = {
+//   tasks: [],
+//   isLoading: false,
+//   isError: false,
+//   error: null,
+// };
 const initialState: TodoState = {
+  shared_users: [],
   tasks: [],
+  user_id: '',
   isLoading: false,
   isError: false,
   error: null,
 };
 
 // Async thunk for fetching tasks from Firebase
+//TODO fetch task by id, to avoid using filter
 export const fetchTasks = createAsyncThunk(
   `todo/${TodoActionTypes.FETCH_TASK}`,
   async (_, thunkAPI) => {

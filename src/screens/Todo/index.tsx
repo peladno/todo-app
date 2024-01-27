@@ -10,8 +10,6 @@ import {
 } from '../../types/input';
 import { useForm } from '../../hooks/useForm';
 import ModalTodo from './components/modalTodo';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchTasks } from '../../store/todo/todo.slice';
 import { Task, TodoState } from '../../types/todoSlice';
