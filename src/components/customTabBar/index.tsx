@@ -5,7 +5,6 @@ import {
   LabelPosition,
 } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
-import { CREATETASK } from '../../navigation/routeNames';
 import { COLORS } from '../../constants/theme/colors';
 
 const ICON_SIZE = 25;
@@ -78,11 +77,7 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
           });
 
           if (!event.defaultPrevented) {
-            if (route.name === CREATETASK) {
-              alert('Mostrar alerta en lugar de navegar');
-            } else {
-              navigation.navigate(route.name);
-            }
+            navigation.navigate(route.name);
           }
         };
 
@@ -136,6 +131,5 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 10,
-    marginTop: 3,
   },
 });

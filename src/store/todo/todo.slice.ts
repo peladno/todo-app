@@ -43,8 +43,6 @@ export const addTask = createAsyncThunk(
   async (task: Task, thunkAPI) => {
     try {
       const taskDocRef = doc(db, 'task_list', task.userId);
-
-      // Agregar una tarea a la matriz 'tasks' utilizando arrayUnion
       await updateDoc(taskDocRef, {
         tasks: arrayUnion({
           ...task,
@@ -53,7 +51,6 @@ export const addTask = createAsyncThunk(
 
       return task;
     } catch (error) {
-      // Utiliza `rejectWithValue` para manejar errores y devolver un valor rechazado con información sobre el error
       return thunkAPI.rejectWithValue(error);
     }
   },

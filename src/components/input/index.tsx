@@ -30,7 +30,11 @@ export default function Input({
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View>
-        <View style={[styles.container, { borderColor, borderWidth }]}>
+        <View
+          style={[
+            styles.container,
+            { borderColor, borderWidth, backgroundColor: COLORS.white },
+          ]}>
           <Text style={styles.label}>{label}</Text>
           <TextInput
             style={styles.input}

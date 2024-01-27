@@ -5,6 +5,7 @@ import { auth, db } from '../../../firebaseConfig';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut as signOutFirebase,
 } from 'firebase/auth';
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 
@@ -56,7 +57,7 @@ export const signUp = createAsyncThunk(
 
         await setDoc(doc(db, 'task_list', response.user.uid), {
           shared_users: [],
-          tasks: {},
+          tasks: [],
           created_by: response.user.uid,
         });
       }
@@ -75,7 +76,8 @@ export const signOut = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       // Fulfill the thunk with a null value to indicate successful sign out
-      return thunkAPI.fulfillWithValue(null);
+      const response = signOutFirebase(auth);
+      return response;
     } catch (error: unknown) {
       // If there's an error, reject the thunk with the error value
       return thunkAPI.rejectWithValue(error);

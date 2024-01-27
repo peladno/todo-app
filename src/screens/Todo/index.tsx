@@ -109,13 +109,13 @@ function Todo({ navigation }: TodosProps) {
         ListFooterComponent={Separator}
       />
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.floatingButton}
         onPress={() => {
           setModalVisible(!modalVisible);
         }}>
         <Ionicons name="add" color={COLORS.white} size={25} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }

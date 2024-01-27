@@ -50,7 +50,6 @@ export default function ModalTodo({
           }
         })
         .catch(error => {
-          // Error occurred while adding the task
           console.log('Error adding task:', error);
         });
       setErrorDate(false);
