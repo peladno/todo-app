@@ -43,6 +43,14 @@ const CustomIcon = ({
           color={isFocused ? COLORS.primary : COLORS.grey}
         />
       );
+    case 'Settings':
+      return (
+        <Ionicons
+          name="settings-outline"
+          size={ICON_SIZE}
+          color={isFocused ? COLORS.primary : COLORS.grey}
+        />
+      );
     default:
       return null;
   }

@@ -3,7 +3,6 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 export type RootStackParamList = {
   Todos: undefined;
   Detail: undefined;
-  Settings: undefined;
 };
 
 export type AuthStackParamList = {
@@ -14,10 +13,7 @@ export type AuthStackParamList = {
 
 export type TodosProps = NativeStackScreenProps<RootStackParamList, 'Todos'>;
 export type DetailProps = NativeStackScreenProps<RootStackParamList, 'Detail'>;
-export type SettingsProps = NativeStackScreenProps<
-  RootStackParamList,
-  'Settings'
->;
+
 export type SignInProps = NativeStackScreenProps<AuthStackParamList, 'SignIn'>;
 export type SignUpProps = NativeStackScreenProps<AuthStackParamList, 'SignUp'>;
 export type HomeProps = NativeStackScreenProps<AuthStackParamList, 'Home'>;
