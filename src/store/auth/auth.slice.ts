@@ -1,16 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AuthActionTypes, AuthState } from '../../types/authSlice';
 // import firestore from '@react-native-firebase/firestore';
+import { auth, db } from '../../../firebaseConfig';
 import {
-  addDoc,
-  auth,
-  collection,
   createUserWithEmailAndPassword,
-  db,
-  doc,
-  setDoc,
   signInWithEmailAndPassword,
-} from '../../../firebaseConfig';
+} from 'firebase/auth';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 
 // Define the initial state for the authentication slice
 const initialState: AuthState = {

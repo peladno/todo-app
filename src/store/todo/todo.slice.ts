@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Task, TodoActionTypes, TodoState } from '../../types/todoSlice';
-import { db, doc, setDoc, deleteDoc } from '../../../firebaseConfig';
-import { arrayUnion, getDoc, updateDoc } from 'firebase/firestore';
+import {
+  arrayUnion,
+  deleteDoc,
+  doc,
+  getDoc,
+  updateDoc,
+} from 'firebase/firestore';
+import { db } from 'firebaseConfig';
 
-// const initialState: TodoState = {
-//   tasks: [],
-//   isLoading: false,
-//   isError: false,
-//   error: null,
-// };
 const initialState: TodoState = {
   shared_users: [],
   tasks: [],
@@ -64,7 +64,6 @@ export const deleteTask = createAsyncThunk(
   `todo/${TodoActionTypes.DELETE_TASK}`,
   async (taskId: string, thunkAPI) => {
     try {
-      //await firestore().collection('tasks').doc(taskId).delete();
       const docRef = doc(db, 'task_list', taskId);
       deleteDoc(docRef);
       return taskId;

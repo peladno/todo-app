@@ -16,6 +16,9 @@
     },
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "experiments": {
+      "tsconfigPaths": true
+    }
   }
 }

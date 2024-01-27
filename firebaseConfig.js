@@ -2,23 +2,9 @@ import { initializeApp } from 'firebase/app';
 import { API_KEY_FIREBASE, APP_ID, MESSAGING_SENDER_ID } from '@env';
 
 // Optionally import the services that you want to use
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 //import {...} from 'firebase/database';
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  orderBy,
-  deleteDoc,
-  setDoc,
-  doc,
-} from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
 // import {...} from 'firebase/functions';
 // import {...} from 'firebase/storage';
 
@@ -38,18 +24,4 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-export {
-  db,
-  app,
-  auth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  orderBy,
-  deleteDoc,
-  doc,
-  setDoc,
-};
+export { db, app, auth };
