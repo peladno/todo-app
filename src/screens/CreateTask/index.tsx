@@ -17,8 +17,8 @@ import { COLORS } from '@/constants/theme/colors';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProp } from '@react-navigation/native';
 
-import { MAINSTACK, TODOS } from '@/navigation/routeNames';
-import { RootStackParamList } from '@/types/navigation';
+import { MAINSTACK } from '@/navigation/routeNames';
+import { TabParamList } from '@/types/navigation';
 
 export default function CreateTask() {
   const [date, setDate] = useState<Date | null>(null);
@@ -26,7 +26,8 @@ export default function CreateTask() {
   const auth = useAppSelector<AuthState>(state => state.auth);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [errorDate, setErrorDate] = useState(false);
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  //TODO probablemente cambiara
+  const navigation = useNavigation<NavigationProp<TabParamList>>();
 
   const taskid = uuidv4();
 
@@ -70,10 +71,9 @@ export default function CreateTask() {
             if (auth.user?.uid) {
               dispatch(fetchTasks(auth.user?.uid));
             }
-            //TODO navigate tasks
             clearForm();
             setDatePickerVisibility(false);
-            navigation.navigate(TODOS);
+            navigation.navigate(MAINSTACK);
           }
         })
         .catch(error => {
@@ -84,8 +84,6 @@ export default function CreateTask() {
       setErrorDate(true);
     }
   };
-
-  // console.log(date);
 
   const onBlurHandler = ({ name }: onBlurProps) => {
     onBlur(name);

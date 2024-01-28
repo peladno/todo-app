@@ -11,6 +11,13 @@ export type AuthStackParamList = {
   Home: undefined;
 };
 
+export type TabParamList = {
+  MainStack: undefined;
+  CreateTask: undefined;
+  Calendar: undefined;
+  Settings: undefined;
+};
+
 export type TodosProps = NativeStackScreenProps<RootStackParamList, 'Todos'>;
 export type DetailProps = NativeStackScreenProps<RootStackParamList, 'Detail'>;
 

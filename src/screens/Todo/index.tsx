@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-import { TodosProps } from '../../types/navigation';
+import { View, StyleSheet, FlatList } from 'react-native';
 import { COLORS } from '../../constants/theme/colors';
 import {
   FormState,
@@ -15,11 +14,10 @@ import { fetchTasks } from '../../store/todo/todo.slice';
 import { Task, TodoState } from '../../types/todoSlice';
 import RenderItem from './components/renderItem';
 import { AuthState } from '../../types/authSlice';
-import { Ionicons } from '@expo/vector-icons';
 
 const Separator = () => <View style={styles.itemSeparator} />;
 
-function Todo({ navigation }: TodosProps) {
+function Todo() {
   const [modalVisible, setModalVisible] = useState(false);
   const [date, setDate] = useState<Date | null>(null);
 

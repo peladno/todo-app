@@ -4,15 +4,8 @@ import CustomTabBar from '@/components/customTabBar';
 import { COLORS } from '@/constants/theme/colors';
 import { CALENDAR, CREATETASK, MAINSTACK, SETTINGS } from './routeNames';
 import { Calendar, CreateTask, Settings } from '@/screens';
-import { RootStackParamList } from '@/types/navigation';
+import { TabParamList } from '@/types/navigation';
 import TodoNavigator from './todoNavigator';
-
-type TabParamList = {
-  MainStack: RootStackParamList;
-  CreateTask: undefined;
-  Calendar: undefined;
-  Settings: undefined;
-};
 
 const Tab = createBottomTabNavigator<TabParamList>();
 

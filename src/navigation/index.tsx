@@ -5,7 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useAppSelector } from '../hooks/redux';
 import { AuthState } from '../types/authSlice';
 import { Alert } from 'react-native';
-import TabsNavigator from './tabs';
+import TabsNavigator from './tabsNavigation';
 
 export default function AppNavigator() {
   const auth = useAppSelector<AuthState>(state => state.auth);
