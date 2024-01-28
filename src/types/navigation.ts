@@ -24,3 +24,8 @@ export type DetailProps = NativeStackScreenProps<RootStackParamList, 'Detail'>;
 export type SignInProps = NativeStackScreenProps<AuthStackParamList, 'SignIn'>;
 export type SignUpProps = NativeStackScreenProps<AuthStackParamList, 'SignUp'>;
 export type HomeProps = NativeStackScreenProps<AuthStackParamList, 'Home'>;
+
+export type CreateTaskProps = NativeStackScreenProps<
+  TabParamList,
+  'CreateTask'
+>;

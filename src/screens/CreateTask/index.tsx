@@ -14,20 +14,16 @@ import { v4 as uuidv4 } from 'uuid';
 import { Button, Input } from '@/components';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { COLORS } from '@/constants/theme/colors';
-import { useNavigation } from '@react-navigation/native';
-import { NavigationProp } from '@react-navigation/native';
-
 import { MAINSTACK } from '@/navigation/routeNames';
-import { TabParamList } from '@/types/navigation';
+import { CreateTaskProps } from '@/types/navigation';
 
-export default function CreateTask() {
+export default function CreateTask({ navigation }: CreateTaskProps) {
   const [date, setDate] = useState<Date | null>(null);
   const dispatch = useAppDispatch();
   const auth = useAppSelector<AuthState>(state => state.auth);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [errorDate, setErrorDate] = useState(false);
-  //TODO probablemente cambiara
-  const navigation = useNavigation<NavigationProp<TabParamList>>();
+  //TODO probablemente cambiara a modal de nuevo
 
   const taskid = uuidv4();
 
