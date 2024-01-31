@@ -1,6 +1,7 @@
 {
   "name": "TSproject",
   "displayName": "TSproject",
+  "scheme": "ts-project-scheme",
   "expo": {
     "name": "TSproject",
     "slug": "TSproject",
@@ -19,6 +20,9 @@
     ],
     "experiments": {
       "tsconfigPaths": true
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
