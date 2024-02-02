@@ -6,9 +6,9 @@ export type RootStackParamList = {
 };
 
 export type AuthStackParamList = {
-  SignIn: undefined;
-  SignUp: undefined;
-  Home: undefined;
+  'sign-in': undefined;
+  'sign-up': undefined;
+  home: undefined;
 };
 
 export type TabParamList = {
@@ -21,9 +21,9 @@ export type TabParamList = {
 export type TodosProps = NativeStackScreenProps<RootStackParamList, 'Todos'>;
 export type DetailProps = NativeStackScreenProps<RootStackParamList, 'Detail'>;
 
-export type SignInProps = NativeStackScreenProps<AuthStackParamList, 'SignIn'>;
-export type SignUpProps = NativeStackScreenProps<AuthStackParamList, 'SignUp'>;
-export type HomeProps = NativeStackScreenProps<AuthStackParamList, 'Home'>;
+export type SignInProps = NativeStackScreenProps<AuthStackParamList, 'sign-in'>;
+export type SignUpProps = NativeStackScreenProps<AuthStackParamList, 'sign-up'>;
+export type HomeProps = NativeStackScreenProps<AuthStackParamList, 'home'>;
 
 export type CreateTaskProps = NativeStackScreenProps<
   TabParamList,

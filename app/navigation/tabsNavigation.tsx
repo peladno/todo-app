@@ -1,10 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import CustomTabBar from '@/components/customTabBar';
-import { COLORS } from '@/constants/theme/colors';
+import CustomTabBar from 'app/components/customTabBar';
+import { COLORS } from 'app/constants/theme/colors';
 import { CALENDAR, CREATETASK, MAINSTACK, SETTINGS } from './routeNames';
-import { Calendar, CreateTask, Settings } from '@/screens';
-import { TabParamList } from '@/types/navigation';
+import { Calendar, CreateTask, Settings } from 'app/screens';
+import { TabParamList } from 'app/types/navigation';
 import TodoNavigator from './todoNavigator';
 
 const Tab = createBottomTabNavigator<TabParamList>();

@@ -7,20 +7,20 @@ import {
   Text,
 } from 'react-native';
 
-import { COLORS } from '../../constants/theme/colors';
 import {
   FormState,
   onBlurProps,
   onChangeProps,
   onfocusProps,
-} from '../../types/input';
-import { SIGNUP } from '../../navigation/routeNames';
-import { useForm } from '../../hooks/useForm';
-import { Button, Input } from '../../components';
+} from '../types/input';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useAppDispatch } from '../../hooks/redux';
-import { signIn } from '../../store/auth/auth.slice';
-import { Header } from '../../components';
+import { useForm } from '../hooks/useForm';
+import { Button, Input } from '../components';
+import { COLORS } from '../constants/theme/colors';
+import { SIGNIN } from '../navigation/routeNames';
+import { signUp } from '../store/auth/auth.slice';
+import { useAppDispatch } from '../hooks/redux';
+import { Header } from '../components';
 
 const initialState: FormState = {
   email: {
@@ -40,19 +40,19 @@ const initialState: FormState = {
     value: '',
   },
 };
-function SignIn() {
+function SignUp() {
   const { formState, onChange, isFormValid, onFocus, onBlur } =
     useForm(initialState);
+
   const dispatch = useAppDispatch();
 
-  const handleSignIn = () => {
+  const handleSignUp = () => {
     const formData = {
       email: formState.email.value,
       password: formState.password.value,
     };
-    dispatch(signIn(formData));
+    dispatch(signUp(formData));
   };
-
   const onBlurHandler = ({ name }: onBlurProps) => {
     onBlur(name);
   };
@@ -64,6 +64,7 @@ function SignIn() {
   const onChangeHandle = ({ name, text }: onChangeProps) => {
     onChange({ text, name });
   };
+
   const insets = useSafeAreaInsets();
 
   return (
@@ -74,17 +75,17 @@ function SignIn() {
           paddingTop: insets.top,
         }}>
         <Header
-          title="Don't have an account?"
-          buttonTitle="Register"
-          screenName={SIGNUP}
+          title="Already have an account?"
+          buttonTitle="Sign in"
+          screenName={SIGNIN}
         />
         <View style={styles.innerContainer}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Welcome Back</Text>
-            <Text style={styles.subtitle}>Sign in to your account</Text>
+            <Text style={styles.title}>Let's Sart</Text>
+            <Text style={styles.subtitle}>Create an account</Text>
           </View>
           <View style={styles.formContainer}>
-            <Text style={styles.signinTitle}>Sign In</Text>
+            <Text style={styles.signupTitle}>Sign Up</Text>
             <Input
               active={formState.email.active}
               error={formState.email.error}
@@ -111,9 +112,9 @@ function SignIn() {
               secureTextEntry
             />
             <Button
-              handleButton={handleSignIn}
+              handleButton={handleSignUp}
               formValid={isFormValid}
-              text="Sign In"
+              text="Sign Up"
             />
           </View>
         </View>
@@ -124,10 +125,8 @@ function SignIn() {
 
 const styles = StyleSheet.create({
   container: {
-    // alignItems: 'center',
     backgroundColor: COLORS.primary,
     flex: 1,
-    // justifyContent: 'flex-end',
   },
   button: {
     alignItems: 'center',
@@ -139,7 +138,6 @@ const styles = StyleSheet.create({
   },
   textButton: { color: COLORS.white, fontWeight: 'bold' },
   formContainer: {
-    // flex: 1,
     backgroundColor: COLORS.white,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
@@ -159,7 +157,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   titleContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  signinTitle: {
+  signupTitle: {
     color: COLORS.primary,
     fontSize: 25,
     fontWeight: 'bold',
@@ -167,4 +165,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignIn;
+export default SignUp;

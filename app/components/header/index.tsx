@@ -1,10 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { COLORS } from '../../constants/theme/colors';
-import { useNavigation } from '@react-navigation/native';
-import { NavigationProp } from '@react-navigation/native';
 import { AuthStackParamList } from '../../types/navigation';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 type HeaderProps = {
   title: string;
@@ -18,19 +17,13 @@ export default function Header({
   buttonTitle,
   screenName,
 }: HeaderProps) {
-  const navigation = useNavigation<NavigationProp<AuthStackParamList>>();
-
   return (
     <View style={styles.container}>
       <View>
         <TouchableOpacity
-          style={{
-            backgroundColor: COLORS.white,
-            padding: 10,
-            borderRadius: 9999,
-          }}
+          style={styles.backButton}
           onPress={() => {
-            navigation.goBack();
+            router.back();
           }}>
           <Ionicons name="arrow-back" color={COLORS.primary} size={20} />
         </TouchableOpacity>
@@ -40,7 +33,7 @@ export default function Header({
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            navigation.navigate(screenName);
+            router.push(screenName);
           }}>
           <Text style={styles.buttonTitle}>{buttonTitle}</Text>
         </TouchableOpacity>
@@ -70,5 +63,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: 'center',
     flexDirection: 'row',
+  },
+  backButton: {
+    backgroundColor: COLORS.white,
+    padding: 10,
+    borderRadius: 9999,
   },
 });

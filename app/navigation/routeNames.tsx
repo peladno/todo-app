@@ -1,7 +1,7 @@
 export const TODOS = 'Todos';
 export const DETAIL = 'Detail';
-export const SIGNIN = 'SignIn';
-export const SIGNUP = 'SignUp';
+export const SIGNIN = 'sign-in';
+export const SIGNUP = 'sign-up';
 export const SETTINGS = 'Settings';
 export const HOME = 'Home';
 export const MAINSTACK = 'MainStack';

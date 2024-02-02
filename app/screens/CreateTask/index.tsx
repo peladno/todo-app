@@ -5,17 +5,18 @@ import {
   onBlurProps,
   onChangeProps,
   onfocusProps,
-} from '@/types/input';
-import { useForm } from '@/hooks/useForm';
-import { addTask, fetchTasks } from '@/store/todo/todo.slice';
-import { AuthState } from '@/types/authSlice';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+} from 'app/types/input';
+import { useForm } from 'app/hooks/useForm';
+import { addTask, fetchTasks } from 'app/store/todo/todo.slice';
+import { AuthState } from 'app/types/authSlice';
+import { useAppDispatch, useAppSelector } from 'app/hooks/redux';
+import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
-import { Button, Input } from '@/components';
+import { Button, Input } from 'app/components';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { COLORS } from '@/constants/theme/colors';
-import { MAINSTACK } from '@/navigation/routeNames';
-import { CreateTaskProps } from '@/types/navigation';
+import { COLORS } from 'app/constants/theme/colors';
+import { MAINSTACK } from 'app/navigation/routeNames';
+import { CreateTaskProps } from 'app/types/navigation';
 
 export default function CreateTask({ navigation }: CreateTaskProps) {
   const [date, setDate] = useState<Date | null>(null);

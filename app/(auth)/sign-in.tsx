@@ -1,3 +1,15 @@
+import { Button, Header, Input } from 'app/components';
+import { COLORS } from 'app/constants/theme/colors';
+import { useAppDispatch } from 'app/hooks/redux';
+import { useForm } from 'app/hooks/useForm';
+import { SIGNUP } from 'app/navigation/routeNames';
+import { signIn } from 'app/store/auth/auth.slice';
+import {
+  FormState,
+  onBlurProps,
+  onChangeProps,
+  onfocusProps,
+} from 'app/types/input';
 import React from 'react';
 import {
   View,
@@ -6,21 +18,7 @@ import {
   Keyboard,
   Text,
 } from 'react-native';
-
-import {
-  FormState,
-  onBlurProps,
-  onChangeProps,
-  onfocusProps,
-} from '../../types/input';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useForm } from '../../hooks/useForm';
-import { Button, Input } from '../../components';
-import { COLORS } from '../../constants/theme/colors';
-import { SIGNIN } from '../../navigation/routeNames';
-import { signUp } from '../../store/auth/auth.slice';
-import { useAppDispatch } from '../../hooks/redux';
-import { Header } from '../../components';
 
 const initialState: FormState = {
   email: {
@@ -40,19 +38,19 @@ const initialState: FormState = {
     value: '',
   },
 };
-function SignUp() {
+function SignIn() {
   const { formState, onChange, isFormValid, onFocus, onBlur } =
     useForm(initialState);
-
   const dispatch = useAppDispatch();
 
-  const handleSignUp = () => {
+  const handleSignIn = () => {
     const formData = {
       email: formState.email.value,
       password: formState.password.value,
     };
-    dispatch(signUp(formData));
+    dispatch(signIn(formData));
   };
+
   const onBlurHandler = ({ name }: onBlurProps) => {
     onBlur(name);
   };
@@ -64,7 +62,6 @@ function SignUp() {
   const onChangeHandle = ({ name, text }: onChangeProps) => {
     onChange({ text, name });
   };
-
   const insets = useSafeAreaInsets();
 
   return (
@@ -75,17 +72,17 @@ function SignUp() {
           paddingTop: insets.top,
         }}>
         <Header
-          title="Already have an account?"
-          buttonTitle="Sign in"
-          screenName={SIGNIN}
+          title="Don't have an account?"
+          buttonTitle="Register"
+          screenName={SIGNUP}
         />
         <View style={styles.innerContainer}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>Let's Sart</Text>
-            <Text style={styles.subtitle}>Create an account</Text>
+            <Text style={styles.title}>Welcome Back</Text>
+            <Text style={styles.subtitle}>Sign in to your account</Text>
           </View>
           <View style={styles.formContainer}>
-            <Text style={styles.signupTitle}>Sign Up</Text>
+            <Text style={styles.signinTitle}>Sign In</Text>
             <Input
               active={formState.email.active}
               error={formState.email.error}
@@ -112,9 +109,9 @@ function SignUp() {
               secureTextEntry
             />
             <Button
-              handleButton={handleSignUp}
+              handleButton={handleSignIn}
               formValid={isFormValid}
-              text="Sign Up"
+              text="Sign In"
             />
           </View>
         </View>
@@ -125,8 +122,10 @@ function SignUp() {
 
 const styles = StyleSheet.create({
   container: {
+    // alignItems: 'center',
     backgroundColor: COLORS.primary,
     flex: 1,
+    // justifyContent: 'flex-end',
   },
   button: {
     alignItems: 'center',
@@ -138,6 +137,7 @@ const styles = StyleSheet.create({
   },
   textButton: { color: COLORS.white, fontWeight: 'bold' },
   formContainer: {
+    // flex: 1,
     backgroundColor: COLORS.white,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   titleContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  signupTitle: {
+  signinTitle: {
     color: COLORS.primary,
     fontSize: 25,
     fontWeight: 'bold',
@@ -165,4 +165,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUp;
+export default SignIn;

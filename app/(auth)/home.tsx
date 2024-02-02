@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
 import React from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Button } from 'app/components';
+import { SIGNIN, SIGNUP } from 'app/navigation/routeNames';
+import { COLORS } from 'app/constants/theme/colors';
 import HOMEIMG from '../../assets/images/todoimg.svg';
-import { COLORS } from '../../constants/theme/colors';
-import { Button } from '../../components';
-import { HomeProps } from '../../types/navigation';
-import { SIGNIN, SIGNUP } from '../../navigation/routeNames';
+import { router } from 'expo-router';
 
-export default function Home({ navigation }: HomeProps) {
+export default function Home() {
   const insets = useSafeAreaInsets();
   return (
     <>
@@ -28,7 +28,7 @@ export default function Home({ navigation }: HomeProps) {
             </Text>
             <Button
               handleButton={() => {
-                navigation.navigate(SIGNIN);
+                router.push(`/${SIGNIN}`);
               }}
               text="Sign In"
               color={COLORS.white}
@@ -37,7 +37,7 @@ export default function Home({ navigation }: HomeProps) {
             />
             <Button
               handleButton={() => {
-                navigation.navigate(SIGNUP);
+                router.push(`/${SIGNUP}`);
               }}
               text="Register"
               color={'transparent'}
