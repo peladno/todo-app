@@ -99,13 +99,16 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
             onLongPress={onLongPress}
             style={styles.tabButton}>
             <CustomIcon isFocused={isFocused} label={label} />
-            <Text
-              style={[
-                styles.labelText,
-                { color: isFocused ? COLORS.primary : COLORS.grey },
-              ]}>
-              {label === 'Create' ? null : label}
-            </Text>
+
+            {label === 'Create' ? null : (
+              <Text
+                style={[
+                  styles.labelText,
+                  { color: isFocused ? COLORS.primary : COLORS.grey },
+                ]}>
+                {label}
+              </Text>
+            )}
           </TouchableOpacity>
         );
       })}

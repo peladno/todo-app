@@ -12,7 +12,7 @@ export default function () {
   return (
     <Stack
       screenOptions={{
-        animation: 'slide_from_left',
+        animation: 'slide_from_right',
       }}
     />
   );
