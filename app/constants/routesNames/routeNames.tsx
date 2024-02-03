@@ -1,0 +1,10 @@
+export const TODOS = 'Todos';
+export const DETAIL = 'Detail';
+export const SIGNIN = 'sign-in';
+export const SIGNUP = 'sign-up';
+export const SETTINGS = 'Settings';
+export const HOME = 'Home';
+export const MAINSTACK = 'MainStack';
+export const PROFILE = 'Profile';
+export const CREATETASK = 'CreateTask';
+export const CALENDAR = 'Calendar';
