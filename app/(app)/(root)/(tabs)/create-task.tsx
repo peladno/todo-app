@@ -1,26 +1,25 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { useAppDispatch, useAppSelector } from '@/app/hooks/redux';
+import { AuthState } from '@/app/types/authSlice';
 import {
   FormState,
   onBlurProps,
   onChangeProps,
   onfocusProps,
-} from 'app/types/input';
-import { useForm } from 'app/hooks/useForm';
-import { addTask, fetchTasks } from 'app/store/todo/todo.slice';
-import { AuthState } from 'app/types/authSlice';
-import { useAppDispatch, useAppSelector } from 'app/hooks/redux';
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
-import { Button, Input } from 'app/components';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { COLORS } from 'app/constants/theme/colors';
-import { MAINSTACK } from 'app/navigation/routeNames';
-import { CreateTaskProps } from 'app/types/navigation';
+} from '@/app/types/input';
+import { useForm } from '@/app/hooks/useForm';
+import { addTask, fetchTasks } from '@/app/store/todo/todo.slice';
+import { Button, Input } from '@/app/components';
+import { COLORS } from '@/app/constants/theme/colors';
+import { router } from 'expo-router';
 
-export default function CreateTask({ navigation }: CreateTaskProps) {
-  const [date, setDate] = useState<Date | null>(null);
+export default function () {
   const dispatch = useAppDispatch();
+  const [date, setDate] = useState<Date | null>(null);
   const auth = useAppSelector<AuthState>(state => state.auth);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [errorDate, setErrorDate] = useState(false);
@@ -70,7 +69,7 @@ export default function CreateTask({ navigation }: CreateTaskProps) {
             }
             clearForm();
             setDatePickerVisibility(false);
-            navigation.navigate(MAINSTACK);
+            router.push('/(app)/(root)/(tabs)');
           }
         })
         .catch(error => {

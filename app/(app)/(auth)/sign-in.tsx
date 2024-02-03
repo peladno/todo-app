@@ -1,15 +1,15 @@
-import { Button, Header, Input } from 'app/components';
-import { COLORS } from 'app/constants/theme/colors';
-import { useAppDispatch } from 'app/hooks/redux';
-import { useForm } from 'app/hooks/useForm';
-import { SIGNUP } from 'app/navigation/routeNames';
-import { signIn } from 'app/store/auth/auth.slice';
+import { Button, Header, Input } from '@/app/components';
+import { SIGNUP } from '@/app/constants/routesNames/routeNames';
+import { COLORS } from '@/app/constants/theme/colors';
+import { useAppDispatch } from '@/app/hooks/redux';
+import { useForm } from '@/app/hooks/useForm';
+import { signIn } from '@/app/store/auth/auth.slice';
 import {
   FormState,
   onBlurProps,
   onChangeProps,
   onfocusProps,
-} from 'app/types/input';
+} from '@/app/types/input';
 import React from 'react';
 import {
   View,

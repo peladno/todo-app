@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Task } from '../../../types/todoSlice';
-import { COLORS } from '../../../constants/theme/colors';
-import { SwipeableComp } from '../../../components';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { AuthState } from '../../../types/authSlice';
-import { updateTask } from '../../../store/todo/todo.slice';
 import { Ionicons } from '@expo/vector-icons';
+import { useAppDispatch, useAppSelector } from '@/app/hooks/redux';
+import { AuthState } from '@/app/types/authSlice';
+import { updateTask } from '@/app/store/todo/todo.slice';
+import { COLORS } from '@/app/constants/theme/colors';
+import { Task } from '@/app/types/todoSlice';
+import { SwipeableComp } from '..';
 
 type TodoItemProps = {
   item: Task;

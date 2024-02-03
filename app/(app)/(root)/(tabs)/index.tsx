@@ -1,15 +1,15 @@
+import RenderItem from '@/app/components/renderItem/renderItem';
+import { COLORS } from '@/app/constants/theme/colors';
+import { useAppDispatch, useAppSelector } from '@/app/hooks/redux';
+import { fetchTasks } from '@/app/store/todo/todo.slice';
+import { AuthState } from '@/app/types/authSlice';
+import { Task, TodoState } from '@/app/types/todoSlice';
 import React, { useEffect } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { COLORS } from 'app/constants/theme/colors';
-import { useAppDispatch, useAppSelector } from 'app/hooks/redux';
-import RenderItem from 'app/screens/Todo/components/renderItem';
-import { fetchTasks } from 'app/store/todo/todo.slice';
-import { AuthState } from 'app/types/authSlice';
-import { Task, TodoState } from 'app/types/todoSlice';
 
 const Separator = () => <View style={styles.itemSeparator} />;
 
-function Todo() {
+export default function () {
   const dispatch = useAppDispatch();
   const { tasks, isLoading } = useAppSelector<TodoState>(state => state.todo);
   const { user } = useAppSelector<AuthState>(state => state.auth);
@@ -69,5 +69,3 @@ const styles = StyleSheet.create({
     height: 10,
   },
 });
-
-export default Todo;

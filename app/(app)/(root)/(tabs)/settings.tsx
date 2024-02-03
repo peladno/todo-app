@@ -6,11 +6,9 @@ import {
   View,
 } from 'react-native';
 import React, { ReactNode } from 'react';
-import { useAppDispatch } from '../../hooks/redux';
-import { signOut } from '../../store/auth/auth.slice';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { useAppDispatch } from '@/app/hooks/redux';
+import { signOut } from '@/app/store/auth/auth.slice';
 
 type ItemData = {
   action: () => void;

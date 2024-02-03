@@ -1,13 +1,14 @@
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
 import React from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Button } from 'app/components';
-import { SIGNIN, SIGNUP } from 'app/navigation/routeNames';
-import { COLORS } from 'app/constants/theme/colors';
-import HOMEIMG from '../../assets/images/todoimg.svg';
-import { router } from 'expo-router';
 
-export default function Home() {
+import HOMEIMG from '../../../assets/images/todoimg.svg';
+import { router } from 'expo-router';
+import { Button } from '@/app/components';
+import { COLORS } from '@/app/constants/theme/colors';
+import { SIGNIN, SIGNUP } from '@/app/constants/routesNames/routeNames';
+
+export default function () {
   const insets = useSafeAreaInsets();
   return (
     <>

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   View,
   StyleSheet,
@@ -6,21 +5,21 @@ import {
   Keyboard,
   Text,
 } from 'react-native';
-
+import React from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useForm } from '@/app/hooks/useForm';
+import { signUp } from '@/app/store/auth/auth.slice';
 import {
   FormState,
   onBlurProps,
   onChangeProps,
   onfocusProps,
-} from '../types/input';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useForm } from '../hooks/useForm';
-import { Button, Input } from '../components';
-import { COLORS } from '../constants/theme/colors';
-import { SIGNIN } from '../navigation/routeNames';
-import { signUp } from '../store/auth/auth.slice';
-import { useAppDispatch } from '../hooks/redux';
-import { Header } from '../components';
+} from '@/app/types/input';
+import { Header } from 'react-native/Libraries/NewAppScreen';
+import { Button, Input } from '@/app/components';
+import { COLORS } from '@/app/constants/theme/colors';
+import { useAppDispatch } from '@/app/hooks/redux';
+import { SIGNIN } from '@/app/constants/routesNames/routeNames';
 
 const initialState: FormState = {
   email: {
