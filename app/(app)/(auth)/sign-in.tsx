@@ -1,22 +1,24 @@
 import { Button, Header, Input } from '@/app/components';
 import { SIGNUP } from '@/app/constants/routesNames/routeNames';
 import { COLORS } from '@/app/constants/theme/colors';
-import { useAppDispatch } from '@/app/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/app/hooks/redux';
 import { useForm } from '@/app/hooks/useForm';
 import { signIn } from '@/app/store/auth/auth.slice';
+import { AuthState } from '@/app/types/authSlice';
 import {
   FormState,
   onBlurProps,
   onChangeProps,
   onfocusProps,
 } from '@/app/types/input';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
   Text,
+  Alert,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 

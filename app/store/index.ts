@@ -15,7 +15,7 @@ const reducers = combineReducers({
 });
 
 const persistConfig = {
-  key: 'todo-app-v6',
+  key: 'todo-app-v7',
   storage: AsyncStorage,
 };
 

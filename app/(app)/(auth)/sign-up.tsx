@@ -15,8 +15,7 @@ import {
   onChangeProps,
   onfocusProps,
 } from '@/app/types/input';
-import { Header } from 'react-native/Libraries/NewAppScreen';
-import { Button, Input } from '@/app/components';
+import { Button, Header, Input } from '@/app/components';
 import { COLORS } from '@/app/constants/theme/colors';
 import { useAppDispatch } from '@/app/hooks/redux';
 import { SIGNIN } from '@/app/constants/routesNames/routeNames';
