@@ -15,8 +15,8 @@ export default function () {
   const { user } = useAppSelector<AuthState>(state => state.auth);
 
   const fetchList = () => {
-    if (user?.uid) {
-      dispatch(fetchTasks(user.uid));
+    if (user?.id) {
+      dispatch(fetchTasks(user.id));
     }
   };
 

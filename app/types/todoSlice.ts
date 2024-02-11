@@ -1,17 +1,17 @@
-export type Task = {
-  id: string;
-  userId: string;
-  title: string;
+export type NewTask = {
   description: string;
-  dueDate: Date | null;
-  creationDate: Date;
-  status: string;
-  db_id?: string;
+  dueDate: Date;
+  name: string;
+  status: 'pending' | 'completed' | 'deleted';
 };
 
+export interface Task extends NewTask {
+  created_at: Date;
+  id: string;
+  task_list_id: string;
+}
+
 export type TodoState = {
-  created_by: string | null;
-  shared_users: [];
   tasks: Task[];
   isLoading: boolean;
   isError: boolean;

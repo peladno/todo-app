@@ -1,13 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AuthActionTypes, AuthState } from '../../types/authSlice';
-// import firestore from '@react-native-firebase/firestore';
-import { auth, db } from '../../../firebaseConfig';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut as signOutFirebase,
-} from 'firebase/auth';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import supabase from '@/app/utils/supabase';
 
 // Define the initial state for the authentication slice
 const initialState: AuthState = {
@@ -22,64 +15,31 @@ const initialState: AuthState = {
 export const signIn = createAsyncThunk(
   `auth/${AuthActionTypes.SIGN_IN}`,
   async (payload: { email: string; password: string }, thunkAPI) => {
-    try {
-      // Attempt to sign in using Firebase authentication
-      const response = await signInWithEmailAndPassword(
-        auth,
-        payload.email,
-        payload.password,
-      );
-      return response.user;
-    } catch (error: unknown) {
-      // If there's an error, reject the thunk with the error value
+    const { data, error } = await supabase.auth.signInWithPassword(payload);
+
+    if (error) {
       return thunkAPI.rejectWithValue(error);
     }
+    return data;
   },
 );
-
 // Define an async thunk for signing up
 export const signUp = createAsyncThunk(
   `auth/${AuthActionTypes.SIGN_UP}`,
   async (payload: { email: string; password: string }, thunkAPI) => {
-    try {
-      // Attempt to create a new user using Firebase authentication
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        payload.email,
-        payload.password,
-      );
-      // Add the user to the Firestore collection
-      if (response.user) {
-        await addDoc(collection(db, 'users'), {
-          uid: response.user.uid,
-          email: response.user.email,
-        });
-
-        await setDoc(doc(db, 'task_list', response.user.uid), {
-          shared_users: [],
-          tasks: [],
-          created_by: response.user.uid,
-        });
-      }
-
-      return response.user;
-    } catch (error: unknown) {
-      // If there's an error, log it and reject the thunk with the error value
+    const { data, error } = await supabase.auth.signUp(payload);
+    if (error) {
       return thunkAPI.rejectWithValue(error);
     }
+    return data;
   },
 );
-
 // Define an async thunk for signing out
 export const signOut = createAsyncThunk(
   `auth/${AuthActionTypes.SIGN_OUT}`,
   async (_, thunkAPI) => {
-    try {
-      // Fulfill the thunk with a null value to indicate successful sign out
-      const response = signOutFirebase(auth);
-      return response;
-    } catch (error: unknown) {
-      // If there's an error, reject the thunk with the error value
+    const { error } = await supabase.auth.signOut();
+    if (error) {
       return thunkAPI.rejectWithValue(error);
     }
   },
@@ -89,7 +49,12 @@ export const signOut = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    resetError: state => {
+      state.error = null;
+      state.isError = false;
+    },
+  },
   extraReducers: builder => {
     builder
       // Handle the pending state for the signUp async thunk
@@ -102,7 +67,7 @@ const authSlice = createSlice({
       .addCase(signUp.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isAuth = true;
-        state.user = action.payload;
+        state.user = action.payload.user;
         state.error = null;
         state.isError = false;
       })
@@ -124,7 +89,7 @@ const authSlice = createSlice({
       .addCase(signIn.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isAuth = true;
-        state.user = action.payload;
+        state.user = action.payload.user;
         state.error = null;
         state.isError = false;
       })
@@ -149,9 +114,13 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.error = action.payload;
+        state.isAuth = false;
+        state.user = null;
       });
   },
 });
+
+export const { resetError } = authSlice.actions;
 
 // Export the authentication reducer from the authentication slice
 export default authSlice.reducer;
