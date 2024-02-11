@@ -72,35 +72,17 @@ export const deleteTask = createAsyncThunk(
 // Async thunk for updating a task from Firebase
 export const updateTask = createAsyncThunk(
   `todo/${TodoActionTypes.EDIT_TASK}`,
-  async (payload: { taskId: string; status: string }, thunkAPI) => {
-    const { data: updatedTask, error } = await supabase
-      .from('task')
-      .update({ status: payload.status })
-      .eq('id', payload.taskId);
+  async (payload: { taskId: string; newStatus: string }, thunkAPI) => {
+    const { data, error } = await supabase
+      .from('tasks')
+      .update({ status: payload.newStatus })
+      .eq('id', payload.taskId)
+      .select();
 
     if (error) {
       return thunkAPI.rejectWithValue(error);
     }
-
-    return updatedTask;
-    // try {
-    //   const docRef = doc(db, 'task_list', payload.task.userId);
-    //   const taskDocSnap = await getDoc(docRef);
-    //   if (taskDocSnap.exists()) {
-    //     const currentTasks = taskDocSnap.data()?.tasks || [];
-    //     const updatedTasks = currentTasks.map((task: { id: string }) =>
-    //       task.id === payload.task.id ? payload.task : task,
-    //     );
-    //     await updateDoc(docRef, {
-    //       tasks: updatedTasks,
-    //     });
-    //     return payload.task;
-    //   } else {
-    //     return thunkAPI.rejectWithValue("Document doesn't exist");
-    //   }
-    // } catch (error) {
-    //   return thunkAPI.rejectWithValue(error);
-    // }
+    return data;
   },
 );
 
@@ -161,10 +143,13 @@ const todoSlice = createSlice({
       })
       .addCase(updateTask.fulfilled, (state, action) => {
         state.isLoading = false;
-        const updatedTask = action.payload as Task;
-        state.tasks = state.tasks.map(task =>
-          task.id === updatedTask.id ? updatedTask : task,
+        const updatedTask = action.payload[0];
+        const taskIndex = state.tasks.findIndex(
+          task => task.id === updatedTask.id,
         );
+        if (taskIndex !== -1) {
+          state.tasks[taskIndex] = updatedTask;
+        }
       })
       .addCase(updateTask.rejected, (state, action) => {
         state.isLoading = false;

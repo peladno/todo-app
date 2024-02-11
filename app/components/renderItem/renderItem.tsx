@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useAppDispatch, useAppSelector } from '@/app/hooks/redux';
-import { AuthState } from '@/app/types/authSlice';
+import { useAppDispatch } from '@/app/hooks/redux';
 import { updateTask } from '@/app/store/todo/todo.slice';
 import { COLORS } from '@/app/constants/theme/colors';
 import { Task } from '@/app/types/todoSlice';
@@ -14,19 +13,19 @@ type TodoItemProps = {
 
 export default function RenderItem({ item }: TodoItemProps) {
   const dispatch = useAppDispatch();
-  const auth = useAppSelector<AuthState>(state => state.auth);
+  // const auth = useAppSelector<AuthState>(state => state.auth);
 
-  const handleAction = (status: string) => {
+  const handleAction = (newStatus: string) => {
     const taskId = item.id;
 
-    dispatch(updateTask({ taskId, status }))
+    dispatch(updateTask({ taskId, newStatus }))
       .then(response => {
         if (response.meta.requestStatus === 'fulfilled') {
-          console.log(`Task ${status}`);
+          console.log(`Task ${newStatus}`);
         }
       })
       .catch(error => {
-        console.log(`Error ${status}ing task:`, error);
+        console.log(`Error ${newStatus}ing task:`, error);
       });
   };
 
@@ -59,7 +58,7 @@ export default function RenderItem({ item }: TodoItemProps) {
                     item.status === 'completed' ? 'none' : 'line-through',
                 },
               ]}>
-              {item.title}
+              {item.name}
             </Text>
             <Text
               style={[

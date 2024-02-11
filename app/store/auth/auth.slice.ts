@@ -67,13 +67,7 @@ const authSlice = createSlice({
       .addCase(signUp.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isAuth = true;
-        state.user = {
-          id: action.payload.user?.id,
-          email: action.payload.user?.email,
-          token: action.payload.session?.access_token,
-          expires_at: action.payload.session?.expires_at,
-          expires_in: action.payload.session?.expires_in,
-        };
+        state.user = action.payload.user;
         state.error = null;
         state.isError = false;
       })
@@ -95,13 +89,7 @@ const authSlice = createSlice({
       .addCase(signIn.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isAuth = true;
-        state.user = {
-          id: action.payload.user?.id,
-          email: action.payload.user?.email,
-          token: action.payload.session?.access_token,
-          expires_at: action.payload.session?.expires_at,
-          expires_in: action.payload.session?.expires_in,
-        };
+        state.user = action.payload.user;
         state.error = null;
         state.isError = false;
       })

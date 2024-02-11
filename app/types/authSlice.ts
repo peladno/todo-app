@@ -1,3 +1,5 @@
+import { AuthUser } from '@supabase/supabase-js';
+
 export type User = {
   email: string | undefined;
   id: string | undefined;
@@ -14,10 +16,8 @@ export enum AuthActionTypes {
   INITIALIZE = 'INITIALIZE',
 }
 
-export type AuthUser = User | null;
-
 export type AuthState = {
-  user: AuthUser;
+  user: AuthUser | null;
   isAuth: boolean;
   isLoading: boolean;
   error: string | null | unknown;

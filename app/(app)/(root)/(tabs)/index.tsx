@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks/redux';
 import { fetchTasks } from '@/app/store/todo/todo.slice';
 import { AuthState } from '@/app/types/authSlice';
 import { Task, TodoState } from '@/app/types/todoSlice';
-import supabase from '@/app/utils/supabase';
 import React, { useEffect } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 
@@ -15,14 +14,6 @@ export default function () {
   const { tasks, isLoading } = useAppSelector<TodoState>(state => state.todo);
   const { user } = useAppSelector<AuthState>(state => state.auth);
 
-  const getsessions = async () => {
-    const { data, error } = await supabase.auth.getSession();
-
-    console.log(data);
-    console.log(error);
-  };
-  console.log('USER', user);
-
   const fetchList = () => {
     if (user?.id) {
       dispatch(fetchTasks(user.id));
@@ -31,7 +22,6 @@ export default function () {
 
   useEffect(() => {
     fetchList();
-    getsessions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
