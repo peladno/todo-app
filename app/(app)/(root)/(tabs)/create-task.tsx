@@ -1,7 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useAppDispatch, useAppSelector } from '@/app/hooks/redux';
 import { AuthState } from '@/app/types/authSlice';
@@ -16,16 +15,14 @@ import { addTask, fetchTasks } from '@/app/store/todo/todo.slice';
 import { Button, Input } from '@/app/components';
 import { COLORS } from '@/app/constants/theme/colors';
 import { router } from 'expo-router';
+import { NewTask } from '@/app/types/todoSlice';
 
 export default function () {
   const dispatch = useAppDispatch();
   const [date, setDate] = useState<Date | null>(null);
-  const auth = useAppSelector<AuthState>(state => state.auth);
+  const { user } = useAppSelector<AuthState>(state => state.auth);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [errorDate, setErrorDate] = useState(false);
-  //TODO probablemente cambiara a modal de nuevo
-
-  const taskid = uuidv4();
 
   const initialState: FormState = {
     task: {
@@ -51,30 +48,28 @@ export default function () {
 
   const handleForm = () => {
     if (date) {
-      const taskData = {
-        userId: auth.user?.uid!,
-        title: formState.task.value,
+      const newTask: NewTask = {
+        name: formState.task.value,
         description: formState.description.value,
         dueDate: date,
-        creationDate: new Date(),
         status: 'pending',
-        id: taskid,
       };
 
-      dispatch(addTask(taskData))
-        .then(response => {
-          if (response.meta.requestStatus === 'fulfilled') {
-            if (auth.user?.uid) {
-              dispatch(fetchTasks(auth.user?.uid));
+      if (user) {
+        dispatch(addTask({ newTask, userId: user?.id }))
+          .then(response => {
+            if (response.meta.requestStatus === 'fulfilled') {
+              dispatch(fetchTasks(user?.id));
+
+              clearForm();
+              setDatePickerVisibility(false);
+              router.push('/(app)/(root)/(tabs)');
             }
-            clearForm();
-            setDatePickerVisibility(false);
-            router.push('/(app)/(root)/(tabs)');
-          }
-        })
-        .catch(error => {
-          console.log('Error adding task:', error);
-        });
+          })
+          .catch(error => {
+            console.log('Error adding task:', error);
+          });
+      }
       setErrorDate(false);
     } else {
       setErrorDate(true);

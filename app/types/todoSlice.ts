@@ -1,12 +1,15 @@
-export type Task = {
-  created_at: Date;
+export type NewTask = {
   description: string;
   dueDate: Date;
-  id: string;
   name: string;
-  status: string;
-  task_list_id: string;
+  status: 'pending' | 'completed' | 'deleted';
 };
+
+export interface Task extends NewTask {
+  created_at: Date;
+  id: string;
+  task_list_id: string;
+}
 
 export type TodoState = {
   tasks: Task[];
