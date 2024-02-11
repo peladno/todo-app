@@ -16,6 +16,7 @@ export const signIn = createAsyncThunk(
   `auth/${AuthActionTypes.SIGN_IN}`,
   async (payload: { email: string; password: string }, thunkAPI) => {
     const { data, error } = await supabase.auth.signInWithPassword(payload);
+
     if (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -66,7 +67,13 @@ const authSlice = createSlice({
       .addCase(signUp.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isAuth = true;
-        state.user = action.payload;
+        state.user = {
+          id: action.payload.user?.id,
+          email: action.payload.user?.email,
+          token: action.payload.session?.access_token,
+          expires_at: action.payload.session?.expires_at,
+          expires_in: action.payload.session?.expires_in,
+        };
         state.error = null;
         state.isError = false;
       })
@@ -88,7 +95,13 @@ const authSlice = createSlice({
       .addCase(signIn.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isAuth = true;
-        state.user = action.payload;
+        state.user = {
+          id: action.payload.user?.id,
+          email: action.payload.user?.email,
+          token: action.payload.session?.access_token,
+          expires_at: action.payload.session?.expires_at,
+          expires_in: action.payload.session?.expires_in,
+        };
         state.error = null;
         state.isError = false;
       })
@@ -113,6 +126,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.error = action.payload;
+        state.isAuth = false;
+        state.user = null;
       });
   },
 });

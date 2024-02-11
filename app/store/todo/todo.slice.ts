@@ -1,18 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Task, TodoActionTypes, TodoState } from '../../types/todoSlice';
-import {
-  arrayUnion,
-  deleteDoc,
-  doc,
-  getDoc,
-  updateDoc,
-} from 'firebase/firestore';
-import { db } from 'firebaseConfig';
+import supabase from '@/app/utils/supabase';
 
 const initialState: TodoState = {
-  shared_users: [],
   tasks: [],
-  created_by: null,
   isLoading: false,
   isError: false,
   error: null,
@@ -21,19 +12,28 @@ const initialState: TodoState = {
 export const fetchTasks = createAsyncThunk(
   `todo/${TodoActionTypes.FETCH_TASK}`,
   async (userId: string, thunkAPI) => {
-    try {
-      const taskDocRef = doc(db, 'task_list', userId);
-      const taskDocSnap = await getDoc(taskDocRef);
+    const { data: sharedLists, error: sharedListsError } = await supabase
+      .from('shared_list')
+      .select('id')
+      .eq('owner_id', userId);
 
-      if (taskDocSnap.exists()) {
-        const taskList = taskDocSnap.data()?.tasks || [];
-        return taskList;
-      } else {
-        return [];
-      }
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+    if (sharedListsError) {
+      return thunkAPI.rejectWithValue(sharedListsError);
     }
+
+    const { data: tasks, error: tasksError } = await supabase
+      .from('tasks')
+      .select('*')
+      .in(
+        'task_list_id',
+        sharedLists.map(list => list.id),
+      );
+
+    if (tasksError) {
+      return thunkAPI.rejectWithValue(tasksError);
+    }
+
+    return tasks;
   },
 );
 
@@ -41,18 +41,17 @@ export const fetchTasks = createAsyncThunk(
 export const addTask = createAsyncThunk(
   `todo/${TodoActionTypes.ADD_TASK}`,
   async (task: Task, thunkAPI) => {
-    try {
-      const taskDocRef = doc(db, 'task_list', task.userId);
-      await updateDoc(taskDocRef, {
-        tasks: arrayUnion({
-          ...task,
-        }),
-      });
-
-      return task;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+    // try {
+    //   const taskDocRef = doc(db, 'task_list', task.userId);
+    //   await updateDoc(taskDocRef, {
+    //     tasks: arrayUnion({
+    //       ...task,
+    //     }),
+    //   });
+    //   return task;
+    // } catch (error) {
+    //   return thunkAPI.rejectWithValue(error);
+    // }
   },
 );
 
@@ -60,40 +59,48 @@ export const addTask = createAsyncThunk(
 export const deleteTask = createAsyncThunk(
   `todo/${TodoActionTypes.DELETE_TASK}`,
   async (taskId: string, thunkAPI) => {
-    try {
-      const docRef = doc(db, 'task_list', taskId);
-      deleteDoc(docRef);
-      return taskId;
-    } catch (error) {
-      thunkAPI.rejectWithValue(error);
-    }
+    // try {
+    //   const docRef = doc(db, 'task_list', taskId);
+    //   deleteDoc(docRef);
+    //   return taskId;
+    // } catch (error) {
+    //   thunkAPI.rejectWithValue(error);
+    // }
   },
 );
 
 // Async thunk for updating a task from Firebase
 export const updateTask = createAsyncThunk(
   `todo/${TodoActionTypes.EDIT_TASK}`,
-  async (payload: { task: Task; id: string }, thunkAPI) => {
-    try {
-      const docRef = doc(db, 'task_list', payload.task.userId);
-      const taskDocSnap = await getDoc(docRef);
+  async (payload: { taskId: string; status: string }, thunkAPI) => {
+    const { data: updatedTask, error } = await supabase
+      .from('task')
+      .update({ status: payload.status })
+      .eq('id', payload.taskId);
 
-      if (taskDocSnap.exists()) {
-        const currentTasks = taskDocSnap.data()?.tasks || [];
-        const updatedTasks = currentTasks.map((task: { id: string }) =>
-          task.id === payload.task.id ? payload.task : task,
-        );
-        await updateDoc(docRef, {
-          tasks: updatedTasks,
-        });
-
-        return payload.task;
-      } else {
-        return thunkAPI.rejectWithValue("Document doesn't exist");
-      }
-    } catch (error) {
+    if (error) {
       return thunkAPI.rejectWithValue(error);
     }
+
+    return updatedTask;
+    // try {
+    //   const docRef = doc(db, 'task_list', payload.task.userId);
+    //   const taskDocSnap = await getDoc(docRef);
+    //   if (taskDocSnap.exists()) {
+    //     const currentTasks = taskDocSnap.data()?.tasks || [];
+    //     const updatedTasks = currentTasks.map((task: { id: string }) =>
+    //       task.id === payload.task.id ? payload.task : task,
+    //     );
+    //     await updateDoc(docRef, {
+    //       tasks: updatedTasks,
+    //     });
+    //     return payload.task;
+    //   } else {
+    //     return thunkAPI.rejectWithValue("Document doesn't exist");
+    //   }
+    // } catch (error) {
+    //   return thunkAPI.rejectWithValue(error);
+    // }
   },
 );
 

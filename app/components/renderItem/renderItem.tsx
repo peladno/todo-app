@@ -17,18 +17,9 @@ export default function RenderItem({ item }: TodoItemProps) {
   const auth = useAppSelector<AuthState>(state => state.auth);
 
   const handleAction = (status: string) => {
-    const task = {
-      userId: auth.user?.uid!,
-      title: item?.title,
-      description: item?.description,
-      dueDate: item?.dueDate,
-      creationDate: item?.creationDate,
-      status: status,
-      id: item?.id,
-    };
-    const id = item.db_id as string;
+    const taskId = item.id;
 
-    dispatch(updateTask({ task, id }))
+    dispatch(updateTask({ taskId, status }))
       .then(response => {
         if (response.meta.requestStatus === 'fulfilled') {
           console.log(`Task ${status}`);
@@ -87,7 +78,7 @@ export default function RenderItem({ item }: TodoItemProps) {
           deleteIt={() => handleAction('deleted')}
           completeIt={() => handleAction('completed')}>
           <View style={styles.itemContainer}>
-            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.title}>{item.name}</Text>
             <Text style={styles.description}>
               Description: {item.description}
             </Text>

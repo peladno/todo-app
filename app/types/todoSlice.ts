@@ -1,17 +1,14 @@
 export type Task = {
-  id: string;
-  userId: string;
-  title: string;
+  created_at: Date;
   description: string;
-  dueDate: Date | null;
-  creationDate: Date;
+  dueDate: Date;
+  id: string;
+  name: string;
   status: string;
-  db_id?: string;
+  task_list_id: string;
 };
 
 export type TodoState = {
-  created_by: string | null;
-  shared_users: [];
   tasks: Task[];
   isLoading: boolean;
   isError: boolean;
