@@ -1,37 +1,24 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import {
-  BottomTabBarProps,
-  LabelPosition,
-} from '@react-navigation/bottom-tabs/lib/typescript/src/types';
+import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { COLORS } from '../../constants/theme/colors';
 
 const ICON_SIZE = 25;
 
-const CustomIcon = ({
-  isFocused,
-  label,
-}: {
-  isFocused: boolean;
-  label:
-    | string
-    | ((props: {
-        focused: boolean;
-        color: string;
-        position: LabelPosition;
-        children: string;
-      }) => React.ReactNode);
-}) => {
+type TabLabel =
+  | string
+  | ((props: {
+      focused: boolean;
+      color: string;
+      position: 'below-icon' | 'beside-icon';
+      children: string;
+    }) => React.ReactNode);
+
+const CustomIcon = ({ isFocused, label }: { isFocused: boolean; label: TabLabel }) => {
   switch (label) {
     case 'Tasks':
-      return (
-        <Ionicons
-          name="list"
-          size={ICON_SIZE}
-          color={isFocused ? COLORS.primary : COLORS.grey}
-        />
-      );
+      return <Ionicons name="list" size={ICON_SIZE} color={isFocused ? COLORS.primary : COLORS.grey} />;
     case 'Create':
       return <Ionicons name="add-circle" size={50} color={COLORS.primary} />;
     case 'Calendar':
@@ -64,8 +51,8 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-            ? options.title
-            : route.name;
+              ? options.title
+              : route.name;
 
         const isFocused = state.index === index;
 
@@ -81,24 +68,17 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
           }
         };
 
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          });
-        };
-
         return (
           <TouchableOpacity
-            key={index.toString()}
+            key={route.key}
             accessibilityRole="button"
             accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
+            testID={options.tabBarButtonTestID}
             onPress={onPress}
-            onLongPress={onLongPress}
+            onLongPress={() => navigation.emit({ type: 'tabLongPress', target: route.key })}
             style={styles.tabButton}>
-            <CustomIcon isFocused={isFocused} label={label} />
+            <CustomIcon isFocused={isFocused} label={label as TabLabel} />
 
             {label === 'Create' ? null : (
               <Text
@@ -106,7 +86,7 @@ function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
                   styles.labelText,
                   { color: isFocused ? COLORS.primary : COLORS.grey },
                 ]}>
-                {label}
+                {typeof label === 'string' ? label : route.name}
               </Text>
             )}
           </TouchableOpacity>
